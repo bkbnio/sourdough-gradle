@@ -23,6 +23,7 @@ version = run {
 
 repositories {
   mavenCentral()
+  gradlePluginPortal()
 }
 
 jacoco {
