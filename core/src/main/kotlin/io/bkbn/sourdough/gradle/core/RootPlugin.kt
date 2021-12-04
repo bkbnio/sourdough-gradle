@@ -11,9 +11,14 @@ import org.gradle.api.tasks.testing.Test
 import org.gradle.jvm.toolchain.JavaLanguageVersion
 import org.gradle.jvm.toolchain.JvmVendorSpec
 import org.gradle.kotlin.dsl.apply
+import org.gradle.kotlin.dsl.buildscript
 import org.gradle.kotlin.dsl.configure
+import org.gradle.kotlin.dsl.dependencies
 import org.gradle.kotlin.dsl.repositories
 import org.gradle.kotlin.dsl.withType
+import org.jetbrains.dokka.gradle.DokkaMultiModuleTask
+import org.jetbrains.dokka.versioning.VersioningConfiguration
+import org.jetbrains.dokka.versioning.VersioningPlugin
 
 class RootPlugin : Plugin<Project> {
   override fun apply(target: Project) {
@@ -22,6 +27,7 @@ class RootPlugin : Plugin<Project> {
     target.configureDetekt()
     target.configureKotlin()
     target.configureTesting()
+    target.configureDokka()
   }
 
   private fun Project.configureDetekt() {
@@ -96,6 +102,37 @@ class RootPlugin : Plugin<Project> {
         showSkippedStandardStreams = true
         showFailedStandardStreams = true
       }
+    }
+  }
+
+  private fun Project.configureDokka() {
+    apply(plugin = "org.jetbrains.dokka")
+    beforeEvaluate {
+      buildscript {
+        dependencies {
+          classpath("org.jetbrains.dokka:versioning-plugin:1.6.0")
+        }
+      }
+    }
+    afterEvaluate {
+      val dmmt = tasks.getByName("dokkaHtmlMultiModule") as DokkaMultiModuleTask
+      dmmt.apply {
+        val version = version.toString()
+        outputDirectory.set(rootDir.resolve("dokka/$version"))
+        dependencies {
+          addProvider("dokkaPlugin", provider { "org.jetbrains.dokka:versioning-plugin:1.6.0" })
+        }
+        pluginConfiguration<VersioningPlugin, VersioningConfiguration> {
+          setVersion(version)
+          olderVersionsDir = rootDir.resolve("dokka")
+        }
+        finalizedBy("generateDokkaHomePage")
+      }
+    }
+    tasks.register("generateDokkaHomePage") {
+      val version = version.toString()
+      val index = rootDir.resolve("dokka/index.html")
+      index.writeText("<meta http-equiv=\"refresh\" content=\"0; url=./$version\" />\n")
     }
   }
 }
