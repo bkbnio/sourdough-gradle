@@ -23,6 +23,7 @@ version = run {
 
 repositories {
   mavenCentral()
+  gradlePluginPortal()
 }
 
 jacoco {
@@ -91,30 +92,4 @@ dependencies {
 
   // Formatting
   detektPlugins("io.gitlab.arturbosch.detekt:detekt-formatting:1.19.0-RC2")
-}
-
-testing {
-  suites {
-    named<JvmTestSuite>("test") {
-      useJUnitJupiter()
-
-      dependencies {
-        implementation("io.kotest:kotest-runner-junit5:4.4.3")
-        implementation("io.kotest:kotest-assertions-core-jvm:4.4.3")
-        implementation("io.kotest:kotest-assertions-json-jvm:4.4.3")
-        implementation("io.kotest:kotest-property-jvm:4.4.3")
-        implementation("io.mockk:mockk:1.12.0")
-      }
-    }
-    create<JvmTestSuite>("testIntegration") {
-      useJUnitJupiter()
-
-      dependencies {
-        implementation("io.kotest:kotest-runner-junit5:4.4.3")
-        implementation("io.kotest:kotest-assertions-core-jvm:4.4.3")
-        implementation("io.kotest:kotest-assertions-json-jvm:4.4.3")
-        implementation("io.kotest:kotest-property-jvm:4.4.3")
-      }
-    }
-  }
 }

@@ -14,3 +14,5 @@ style:
     excludes: ['**/test/**/*', '**/testIntegration/**/*']
     active: true
     maxLineLength: 120
+  UnnecessaryAbstractClass:
+    active: false
