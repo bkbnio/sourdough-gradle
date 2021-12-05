@@ -11,6 +11,8 @@ dependencies {
   api("org.jetbrains.dokka:versioning-plugin:1.6.0")
   api("com.adarshr:gradle-test-logger-plugin:3.1.0")
   api("io.gitlab.arturbosch.detekt:detekt-gradle-plugin:1.19.0")
+  api("org.jetbrains.kotlinx:kover:0.4.4")
+  api("io.github.gradle-nexus:publish-plugin:1.1.0")
 }
 
 gradlePlugin {

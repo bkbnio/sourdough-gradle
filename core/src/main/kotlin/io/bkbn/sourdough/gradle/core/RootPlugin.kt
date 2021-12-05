@@ -2,8 +2,11 @@ package io.bkbn.sourdough.gradle.core
 
 import com.adarshr.gradle.testlogger.TestLoggerExtension
 import com.adarshr.gradle.testlogger.theme.ThemeType
+import io.bkbn.sourdough.gradle.core.extension.SourdoughRootExtension
+import io.github.gradlenexus.publishplugin.NexusPublishExtension
 import io.gitlab.arturbosch.detekt.extensions.DetektExtension
-import org.gradle.api.JavaVersion
+import kotlinx.kover.api.KoverExtension
+import kotlinx.kover.tasks.KoverCollectingTask
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.plugins.JavaPluginExtension
@@ -13,21 +16,26 @@ import org.gradle.jvm.toolchain.JvmVendorSpec
 import org.gradle.kotlin.dsl.apply
 import org.gradle.kotlin.dsl.buildscript
 import org.gradle.kotlin.dsl.configure
+import org.gradle.kotlin.dsl.create
 import org.gradle.kotlin.dsl.dependencies
 import org.gradle.kotlin.dsl.repositories
 import org.gradle.kotlin.dsl.withType
 import org.jetbrains.dokka.gradle.DokkaMultiModuleTask
 import org.jetbrains.dokka.versioning.VersioningConfiguration
 import org.jetbrains.dokka.versioning.VersioningPlugin
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 class RootPlugin : Plugin<Project> {
   override fun apply(target: Project) {
+    val extension = target.extensions.create<SourdoughRootExtension>("sourdough")
     target.configureRepositories()
     target.configureIdea()
     target.configureDetekt()
-    target.configureKotlin()
+    target.configureKotlin(extension)
     target.configureTesting()
     target.configureDokka()
+    target.configureKover()
+    target.configureNexus(extension)
   }
 
   private fun Project.configureDetekt() {
@@ -41,26 +49,26 @@ class RootPlugin : Plugin<Project> {
     }
   }
 
-  private fun Project.configureKotlin() {
+  private fun Project.configureKotlin(ext: SourdoughRootExtension) {
     subprojects {
       apply(plugin = "org.jetbrains.kotlin.jvm")
-      configure<JavaPluginExtension> {
-        withSourcesJar()
-        withJavadocJar()
-
-        toolchain {
-          languageVersion.set(JavaLanguageVersion.of(JavaVersion.VERSION_11.majorVersion))
-          vendor.set(JvmVendorSpec.ADOPTOPENJDK)
+      afterEvaluate {
+        configure<JavaPluginExtension> {
+          withSourcesJar()
+          withJavadocJar()
+          toolchain {
+            languageVersion.set(JavaLanguageVersion.of(ext.javaVersion.get().majorVersion))
+            vendor.set(JvmVendorSpec.ADOPTOPENJDK)
+          }
+        }
+        tasks.withType<KotlinCompile> {
+          sourceCompatibility = ext.javaVersion.get().majorVersion
+          kotlinOptions {
+            jvmTarget = ext.javaVersion.get().majorVersion
+            freeCompilerArgs = freeCompilerArgs + ext.compilerArgs.get()
+          }
         }
       }
-      // TODO Why doesnt this work?
-//      configure<KotlinCompile> {
-//        sourceCompatibility = "11"
-//        kotlinOptions {
-//          jvmTarget = "11"
-//          freeCompilerArgs = freeCompilerArgs + listOf("-opt-in=kotlin.RequiresOptIn")
-//        }
-//      }
     }
   }
 
@@ -133,6 +141,35 @@ class RootPlugin : Plugin<Project> {
       val version = version.toString()
       val index = rootDir.resolve("dokka/index.html")
       index.writeText("<meta http-equiv=\"refresh\" content=\"0; url=./$version\" />\n")
+    }
+  }
+
+  private fun Project.configureKover() {
+    apply(plugin = "org.jetbrains.kotlinx.kover")
+    configure<KoverExtension> {
+      isEnabled = true
+      coverageEngine.set(kotlinx.kover.api.CoverageEngine.JACOCO)
+      jacocoEngineVersion.set("0.8.7")
+      generateReportOnCheck.set(true)
+    }
+    afterEvaluate {
+      val kcr = tasks.getByName("koverCollectReports") as KoverCollectingTask
+      kcr.apply {
+        outputDir.set(layout.buildDirectory.dir("kover-report"))
+      }
+    }
+  }
+
+  private fun Project.configureNexus(ext: SourdoughRootExtension) {
+    afterEvaluate {
+      configure<NexusPublishExtension> {
+        repositories {
+          sonatype {
+            nexusUrl.set(uri("https://${ext.sonatypeBaseUrl.get()}/service/local/"))
+            snapshotRepositoryUrl.set(uri("https://${ext.sonatypeBaseUrl.get()}/content/repositories/snapshots/"))
+          }
+        }
+      }
     }
   }
 }
