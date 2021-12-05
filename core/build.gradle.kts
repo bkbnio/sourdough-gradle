@@ -3,6 +3,7 @@ plugins {
   `kotlin-dsl`
   `java-gradle-plugin`
   `maven-publish`
+  id("com.gradle.plugin-publish") version "0.16.0"
 }
 
 dependencies {
@@ -19,15 +20,26 @@ gradlePlugin {
   plugins {
     create("Root") {
       id = "io.bkbn.sourdough.root"
+      displayName = "Root Plugin for Sourdough"
+      description = "Highly-opinionated, batteries-included root gradle configuration plugin"
       implementationClass = "io.bkbn.sourdough.gradle.core.RootPlugin"
     }
     create("Library") {
       id = "io.bkbn.sourdough.library"
+      displayName = "Library plugin for Sourdough"
+      description = "Highly-opinionated, batteries-included library configuration plugin"
       implementationClass = "io.bkbn.sourdough.gradle.core.LibraryPlugin"
     }
     create("Application") {
       id = "io.bkbn.sourdough.application"
+      displayName = "Application Plugin"
+      description = "Highly-opinionated, batteries-included application configuration plugin"
       implementationClass = "io.bkbn.sourdough.gradle.core.application"
     }
   }
+}
+
+pluginBundle {
+  website = "https://github.com/bkbnio"
+  vcsUrl = "https://github.com/bkbnio/sourdough-gradle"
 }
