@@ -1,5 +1,6 @@
 package io.bkbn.sourdough.gradle.core
 
+import io.bkbn.sourdough.gradle.core.extension.SourdoughLibraryExtension
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.plugins.JavaPluginExtension
@@ -19,8 +20,9 @@ import org.jetbrains.dokka.versioning.VersioningPlugin
 
 class LibraryPlugin : Plugin<Project> {
   override fun apply(target: Project) {
+    val extension = target.extensions.create<SourdoughLibraryExtension>("sourdough")
     target.configureJava()
-    target.configurePublishing()
+    target.configurePublishing(extension)
     target.configureSigning()
     target.configureDokka()
   }
@@ -35,50 +37,51 @@ class LibraryPlugin : Plugin<Project> {
     }
   }
 
-  private fun Project.configurePublishing() {
+  private fun Project.configurePublishing(ext: SourdoughLibraryExtension) {
     apply(plugin = "maven-publish")
-    configure<PublishingExtension> {
-      // TODO This needs to be configurable via extension
-      repositories {
-        maven {
-          name = "GithubPackages"
-          url = uri("https://maven.pkg.github.com/bkbnio/kompendium")
-          credentials {
-            username = System.getenv("GITHUB_ACTOR")
-            password = System.getenv("GITHUB_TOKEN")
+    afterEvaluate {
+      configure<PublishingExtension> {
+        repositories {
+          maven {
+            name = "GithubPackages"
+            url = uri("https://maven.pkg.github.com/${ext.githubOrg.get()}/${ext.githubRepo.get()}")
+            credentials {
+              username = ext.githubUsername.get()
+              password = ext.githubToken.get()
+            }
           }
         }
-      }
-      publications {
-        create<MavenPublication>(project.name) {
-          from(components["kotlin"])
-          artifact(tasks.findByName("sourcesJar"))
-          artifact(tasks.findByName("javadocJar"))
-          groupId = project.group.toString()
-          artifactId = project.name.toLowerCase()
-          version = project.version.toString()
+        publications {
+          create<MavenPublication>(project.name) {
+            from(components["kotlin"])
+            artifact(tasks.findByName("sourcesJar"))
+            artifact(tasks.findByName("javadocJar"))
+            groupId = project.group.toString()
+            artifactId = project.name.toLowerCase()
+            version = project.version.toString()
 
-          pom {
-            name.set("Kompendium") // todo configure
-            description.set("A minimally invasive OpenAPI spec generator for Ktor")
-            url.set("https://github.com/bkbnio/kompendium")
-            licenses {
-              license {
-                name.set("MIT License")
-                url.set("https://mit-license.org/")
+            pom {
+              name.set(ext.libraryName.get())
+              description.set(ext.libraryDescription.get())
+              url.set("https://github.com/${ext.githubOrg.get()}/${ext.githubRepo.get()}")
+              licenses {
+                license {
+                  name.set(ext.licenseName.get())
+                  url.set(ext.licenseUrl.get())
+                }
               }
-            }
-            developers {
-              developer {
-                id.set("bkbnio")
-                name.set("Ryan Brink")
-                email.set("admin@bkbn.io")
+              developers {
+                developer {
+                  id.set(ext.developerId.get())
+                  name.set(ext.developerName.get())
+                  email.set(ext.developerEmail.get())
+                }
               }
-            }
-            scm {
-              connection.set("scm:git:git://github.com/bkbnio/Kompendium.git")
-              developerConnection.set("scm:git:ssh://github.com/bkbnio/Kompendium.git")
-              url.set("https://github.com/bkbnio/Kompendium.git")
+              scm {
+                connection.set("scm:git:git://github.com/${ext.githubOrg.get()}/${ext.githubRepo.get()}.git")
+                developerConnection.set("scm:git:ssh://github.com/${ext.githubOrg.get()}/${ext.githubRepo.get()}.git")
+                url.set("https://github.com/${ext.githubOrg.get()}/${ext.githubRepo.get()}.git")
+              }
             }
           }
         }
