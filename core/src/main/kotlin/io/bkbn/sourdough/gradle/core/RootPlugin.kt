@@ -161,6 +161,7 @@ class RootPlugin : Plugin<Project> {
   }
 
   private fun Project.configureNexus(ext: SourdoughRootExtension) {
+    apply(plugin = "io.github.gradle-nexus.publish-plugin")
     afterEvaluate {
       configure<NexusPublishExtension> {
         repositories {
