@@ -42,4 +42,5 @@ gradlePlugin {
 pluginBundle {
   website = "https://github.com/bkbnio"
   vcsUrl = "https://github.com/bkbnio/sourdough-gradle"
+  tags = listOf("configuration", "kotlin")
 }
