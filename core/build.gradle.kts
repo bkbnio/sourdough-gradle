@@ -34,7 +34,7 @@ gradlePlugin {
       id = "io.bkbn.sourdough.application"
       displayName = "Application Plugin"
       description = "Highly-opinionated, batteries-included application configuration plugin"
-      implementationClass = "io.bkbn.sourdough.gradle.core.application"
+      implementationClass = "io.bkbn.sourdough.gradle.core.ApplicationPlugin"
     }
   }
 }
