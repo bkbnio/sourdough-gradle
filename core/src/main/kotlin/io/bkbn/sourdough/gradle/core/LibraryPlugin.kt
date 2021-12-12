@@ -112,14 +112,21 @@ class LibraryPlugin : Plugin<Project> {
       }
     }
     afterEvaluate {
-      val version = version.toString()
-      val dhp = tasks.getByName("dokkaHtmlPartial") as DokkaTaskPartial
-      dhp.apply {
+      tasks.withType(DokkaTaskPartial::class.java) {
+        val version = version.toString()
         dependencies {
           addProvider("dokkaPlugin", provider { "org.jetbrains.dokka:versioning-plugin:1.6.0" })
         }
         pluginConfiguration<VersioningPlugin, VersioningConfiguration> {
           setVersion(version)
+        }
+        dokkaSourceSets.apply {
+          configureEach {
+            val moduleMd = projectDir.resolve("Module.md")
+            if (moduleMd.exists()) {
+              includes.from("Module.md")
+            }
+          }
         }
       }
     }

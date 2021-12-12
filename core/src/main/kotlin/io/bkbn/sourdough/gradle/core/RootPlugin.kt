@@ -124,7 +124,7 @@ class RootPlugin : Plugin<Project> {
     }
     afterEvaluate {
       tasks.withType(DokkaMultiModuleTask::class.java) {
-        val version = this@configureDokka.version.toString()
+        val version = version.toString()
         outputDirectory.set(rootDir.resolve("dokka/$version"))
         dependencies {
           addProvider("dokkaPlugin", provider { "org.jetbrains.dokka:versioning-plugin:1.6.0" })
