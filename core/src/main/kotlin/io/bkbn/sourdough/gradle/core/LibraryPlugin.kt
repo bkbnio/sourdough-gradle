@@ -44,10 +44,10 @@ class LibraryPlugin : Plugin<Project> {
         repositories {
           maven {
             name = "GithubPackages"
-            url = uri("https://maven.pkg.github.com/${ext.githubOrg.get()}/${ext.githubRepo.get()}")
+            url = uri("https://maven.pkg.github.com/${ext.githubOrg}/${ext.githubRepo}")
             credentials {
-              username = ext.githubUsername.get()
-              password = ext.githubToken.get()
+              username = ext.githubUsername
+              password = ext.githubToken
             }
           }
         }
@@ -61,26 +61,26 @@ class LibraryPlugin : Plugin<Project> {
             version = project.version.toString()
 
             pom {
-              name.set(ext.libraryName.get())
-              description.set(ext.libraryDescription.get())
-              url.set("https://github.com/${ext.githubOrg.get()}/${ext.githubRepo.get()}")
+              name.set(ext.libraryName)
+              description.set(ext.libraryDescription)
+              url.set("https://github.com/${ext.githubOrg}/${ext.githubRepo}")
               licenses {
                 license {
-                  name.set(ext.licenseName.get())
-                  url.set(ext.licenseUrl.get())
+                  name.set(ext.licenseName)
+                  url.set(ext.licenseUrl)
                 }
               }
               developers {
                 developer {
-                  id.set(ext.developerId.get())
-                  name.set(ext.developerName.get())
-                  email.set(ext.developerEmail.get())
+                  id.set(ext.developerId)
+                  name.set(ext.developerName)
+                  email.set(ext.developerEmail)
                 }
               }
               scm {
-                connection.set("scm:git:git://github.com/${ext.githubOrg.get()}/${ext.githubRepo.get()}.git")
-                developerConnection.set("scm:git:ssh://github.com/${ext.githubOrg.get()}/${ext.githubRepo.get()}.git")
-                url.set("https://github.com/${ext.githubOrg.get()}/${ext.githubRepo.get()}.git")
+                connection.set("scm:git:git://github.com/${ext.githubOrg}/${ext.githubRepo}.git")
+                developerConnection.set("scm:git:ssh://github.com/${ext.githubOrg}/${ext.githubRepo}.git")
+                url.set("https://github.com/${ext.githubOrg}/${ext.githubRepo}.git")
               }
             }
           }
