@@ -57,15 +57,15 @@ class RootPlugin : Plugin<Project> {
           withSourcesJar()
           withJavadocJar()
           toolchain {
-            languageVersion.set(JavaLanguageVersion.of(ext.javaVersion.get().majorVersion))
+            languageVersion.set(JavaLanguageVersion.of(ext.javaVersion.majorVersion))
             vendor.set(JvmVendorSpec.ADOPTOPENJDK)
           }
         }
         tasks.withType<KotlinCompile> {
-          sourceCompatibility = ext.javaVersion.get().majorVersion
+          sourceCompatibility = ext.javaVersion.majorVersion
           kotlinOptions {
-            jvmTarget = ext.javaVersion.get().majorVersion
-            freeCompilerArgs = freeCompilerArgs + ext.compilerArgs.get()
+            jvmTarget = ext.javaVersion.majorVersion
+            freeCompilerArgs = freeCompilerArgs + ext.compilerArgs
           }
         }
       }
@@ -123,8 +123,7 @@ class RootPlugin : Plugin<Project> {
       }
     }
     afterEvaluate {
-      val dmmt = tasks.getByName("dokkaHtmlMultiModule") as DokkaMultiModuleTask
-      dmmt.apply {
+      tasks.withType(DokkaMultiModuleTask::class.java) {
         val version = version.toString()
         outputDirectory.set(rootDir.resolve("dokka/$version"))
         dependencies {
@@ -139,7 +138,14 @@ class RootPlugin : Plugin<Project> {
     }
     tasks.register("generateDokkaHomePage") {
       val version = version.toString()
+      val dokkaDir = rootDir.resolve("dokka")
+      if (!dokkaDir.exists()) {
+        dokkaDir.mkdir()
+      }
       val index = rootDir.resolve("dokka/index.html")
+      if (!index.exists()) {
+        index.createNewFile()
+      }
       index.writeText("<meta http-equiv=\"refresh\" content=\"0; url=./$version\" />\n")
     }
   }
@@ -166,8 +172,8 @@ class RootPlugin : Plugin<Project> {
       configure<NexusPublishExtension> {
         repositories {
           sonatype {
-            nexusUrl.set(uri("https://${ext.sonatypeBaseUrl.get()}/service/local/"))
-            snapshotRepositoryUrl.set(uri("https://${ext.sonatypeBaseUrl.get()}/content/repositories/snapshots/"))
+            nexusUrl.set(uri("https://${ext.sonatypeBaseUrl}/service/local/"))
+            snapshotRepositoryUrl.set(uri("https://${ext.sonatypeBaseUrl}/content/repositories/snapshots/"))
           }
         }
       }
