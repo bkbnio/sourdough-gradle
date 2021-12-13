@@ -1,15 +1,15 @@
 package io.bkbn.sourdough.gradle.core.extension
 
 open class SourdoughLibraryExtension {
-  lateinit var githubOrg: String
-  lateinit var githubRepo: String
-  lateinit var githubUsername: String
-  lateinit var githubToken: String
-  lateinit var libraryName: String
-  lateinit var libraryDescription: String
-  lateinit var licenseName: String
-  lateinit var licenseUrl: String
-  lateinit var developerId: String
-  lateinit var developerName: String
-  lateinit var developerEmail: String
+  var githubOrg: String? = null
+  var githubRepo: String? = null
+  var githubUsername: String? = null
+  var githubToken: String? = null
+  var libraryName: String? = null
+  var libraryDescription: String? = null
+  var licenseName: String? = null
+  var licenseUrl: String? = null
+  var developerId: String? = null
+  var developerName: String? = null
+  var developerEmail: String? = null
 }
