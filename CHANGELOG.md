@@ -4,6 +4,15 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.1.1] - 12/17/2021
+### Changed
+- Allow for JVM Target to be specified separate from JVM Version
+- `javaVersion` is now `toolChainJavaVersion`
+
+## [0.1.0] - 12/13/2021
+### Changed
+- Fixed bug in Dokka setup causing failure if missing folder
+
 ## [0.0.5] - 12/12/2021
 ### Added
 - The beginnings of an actual README

@@ -43,7 +43,7 @@ tasks.withType<JacocoReport>() {
 
 tasks.withType<KotlinCompile>().configureEach {
   kotlinOptions {
-    jvmTarget = "1.8"
+    jvmTarget = "11"
   }
 }
 
@@ -51,12 +51,13 @@ java {
   withSourcesJar()
   withJavadocJar()
   toolchain {
-    languageVersion.set(JavaLanguageVersion.of(8))
+    languageVersion.set(JavaLanguageVersion.of(17))
+    vendor.set(JvmVendorSpec.ADOPTOPENJDK)
   }
 }
 
 detekt {
-  toolVersion = "1.19.0-RC2"
+  toolVersion = "1.19.0"
   config = files("${rootProject.projectDir}/detekt.yml")
   buildUponDefaultConfig = true
 }

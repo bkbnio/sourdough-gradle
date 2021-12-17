@@ -57,14 +57,14 @@ class RootPlugin : Plugin<Project> {
           withSourcesJar()
           withJavadocJar()
           toolchain {
-            languageVersion.set(JavaLanguageVersion.of(ext.javaVersion.majorVersion))
+            languageVersion.set(JavaLanguageVersion.of(ext.toolChainJavaVersion.majorVersion))
             vendor.set(JvmVendorSpec.ADOPTOPENJDK)
           }
         }
         tasks.withType<KotlinCompile> {
-          sourceCompatibility = ext.javaVersion.majorVersion
+          sourceCompatibility = ext.jvmTarget
           kotlinOptions {
-            jvmTarget = ext.javaVersion.majorVersion
+            jvmTarget = ext.jvmTarget
             freeCompilerArgs = freeCompilerArgs + ext.compilerArgs
           }
         }
