@@ -10,14 +10,14 @@ jobs:
         with:
           distribution: 'adopt'
           java-version: '11'
-      - name: Cache Gradle packages
-        uses: actions/cache@v2
+      - name: Unit Tests
+        uses: burrunan/gradle-cache-action@v1
         with:
-          path: ~/.gradle/caches
-          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle.kts') }}
-          restore-keys: ${{ runner.os }}-gradle
-      - name: Lint using detekt
-        run: ./gradlew detekt
+          gradle-version: wrapper
+          arguments: detekt
+          properties: |
+            org.gradle.vfs.watch=false
+            org.gradle.vfs.verbose=false
   unit:
     runs-on: ubuntu-latest
     steps:
@@ -27,13 +27,11 @@ jobs:
         with:
           distribution: 'adopt'
           java-version: '11'
-      - name: Cache Gradle packages
-        uses: actions/cache@v2
+      - name: Unit Tests
+        uses: burrunan/gradle-cache-action@v1
         with:
-          path: ~/.gradle/caches
-          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle.kts') }}
-          restore-keys: ${{ runner.os }}-gradle
-      - name: Assemble with Gradle
-        run: ./gradlew assemble
-      - name: Run Unit Tests
-        run: ./gradlew test
+          gradle-version: wrapper
+          arguments: test
+          properties: |
+            org.gradle.vfs.watch=false
+            org.gradle.vfs.verbose=false

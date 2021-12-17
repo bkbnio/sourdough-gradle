@@ -4,9 +4,6 @@ on:
     types:
       - prereleased
       - released
-env:
-  GRADLE_PUBLISH_KEY: ${{ secrets.GRADLE_PUBLISH_KEY }}
-  GRADLE_PUBLISH_SECRET: ${{ secrets.GRADLE_PUBLISH_SECRET }}
 jobs:
   publish-to-gradle:
     runs-on: ubuntu-latest
@@ -27,3 +24,6 @@ jobs:
             gradle.publish.secret=$GRADLE_PUBLISH_SECRET
             org.gradle.vfs.watch=false
             org.gradle.vfs.verbose=false
+        env:
+          GRADLE_PUBLISH_KEY: ${{ secrets.GRADLE_PUBLISH_KEY }}
+          GRADLE_PUBLISH_SECRET: ${{ secrets.GRADLE_PUBLISH_SECRET }}
