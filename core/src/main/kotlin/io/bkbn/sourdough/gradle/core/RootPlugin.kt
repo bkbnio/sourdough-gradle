@@ -34,7 +34,7 @@ class RootPlugin : Plugin<Project> {
     target.configureTesting()
     target.configureDokka()
     target.configureKover()
-//    target.configureNexus(extension)
+    target.configureNexus(extension)
   }
 
   private fun Project.configureDetekt() {
@@ -165,7 +165,6 @@ class RootPlugin : Plugin<Project> {
     }
   }
 
-  @Suppress("UnusedPrivateMember")
   private fun Project.configureNexus(ext: SourdoughRootExtension) {
     apply(plugin = "io.github.gradle-nexus.publish-plugin")
     configure<NexusPublishExtension> {
