@@ -3,6 +3,7 @@ package io.bkbn.sourdough.gradle.core
 import io.bkbn.sourdough.gradle.core.extension.SourdoughLibraryExtension
 import org.gradle.api.Plugin
 import org.gradle.api.Project
+import org.gradle.api.plugins.JavaPlugin
 import org.gradle.api.plugins.JavaPluginExtension
 import org.gradle.api.publish.PublishingExtension
 import org.gradle.api.publish.maven.MavenPublication
@@ -30,12 +31,11 @@ class LibraryPlugin : Plugin<Project> {
   }
 
   private fun Project.configureJava() {
-    apply(plugin = "java")
-    apply(plugin = "java-library")
-
-    configure<JavaPluginExtension> {
-      withSourcesJar()
-      withJavadocJar()
+    plugins.withType(JavaPlugin::class.java).whenPluginAdded {
+      configure<JavaPluginExtension> {
+        withSourcesJar()
+        withJavadocJar()
+      }
     }
   }
 
