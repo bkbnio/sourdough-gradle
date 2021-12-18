@@ -1,4 +1,4 @@
-name: Publish to GitHub Packages
+name: Publish to Gradle Plugin Repository
 on:
   release:
     types:
