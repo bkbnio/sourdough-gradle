@@ -1,9 +1,10 @@
 name: Publish to GitHub Packages
-on:
-  release:
-    types:
-      - prereleased
-      - released
+#on:
+#  release:
+#    types:
+#      - prereleased
+#      - released
+on: pull_request
 jobs:
   publish-to-gradle:
     runs-on: ubuntu-latest
