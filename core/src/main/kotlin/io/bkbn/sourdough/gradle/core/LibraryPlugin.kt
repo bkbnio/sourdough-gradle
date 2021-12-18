@@ -39,47 +39,51 @@ class LibraryPlugin : Plugin<Project> {
 
   private fun Project.configurePublishing(ext: SourdoughLibraryExtension) {
     apply(plugin = "maven-publish")
-    configure<PublishingExtension> {
-      repositories {
-        maven {
-          name = "GithubPackages"
-          url = uri("https://maven.pkg.github.com/${ext.githubOrg}/${ext.githubRepo}")
-          credentials {
-            username = ext.githubUsername
-            password = ext.githubToken
+    afterEvaluate {
+      configure<PublishingExtension> {
+        repositories {
+          maven {
+            name = "GithubPackages"
+            url = uri("https://maven.pkg.github.com/${ext.githubOrg.get()}/${ext.githubRepo.get()}")
+            credentials {
+              username = ext.githubActor.get()
+              password = ext.githubToken.get()
+            }
           }
         }
-      }
-      publications {
-        create<MavenPublication>(project.name) {
-          from(components["kotlin"])
-          artifact(tasks.findByName("sourcesJar"))
-          artifact(tasks.findByName("javadocJar"))
-          groupId = project.group.toString()
-          artifactId = project.name.toLowerCase()
-          version = project.version.toString()
+        publications {
+          create<MavenPublication>(project.name) {
+            from(components["kotlin"])
+            artifact(tasks.findByName("sourcesJar"))
+            artifact(tasks.findByName("javadocJar"))
+            groupId = project.group.toString()
+            artifactId = project.name.toLowerCase()
+            version = project.version.toString()
 
-          pom {
-            name.set(ext.libraryName)
-            description.set(ext.libraryDescription)
-            url.set("https://github.com/${ext.githubOrg}/${ext.githubRepo}")
-            licenses {
-              license {
-                name.set(ext.licenseName)
-                url.set(ext.licenseUrl)
+            pom {
+              name.set(ext.libraryName)
+              description.set(ext.libraryDescription)
+              // todo can this be improved?
+              url.set("https://github.com/${ext.githubOrg.get()}/${ext.githubRepo.get()}")
+              licenses {
+                license {
+                  name.set(ext.licenseName)
+                  url.set(ext.licenseUrl)
+                }
               }
-            }
-            developers {
-              developer {
-                id.set(ext.developerId)
-                name.set(ext.developerName)
-                email.set(ext.developerEmail)
+              developers {
+                developer {
+                  id.set(ext.developerId)
+                  name.set(ext.developerName)
+                  email.set(ext.developerEmail)
+                }
               }
-            }
-            scm {
-              connection.set("scm:git:git://github.com/${ext.githubOrg}/${ext.githubRepo}.git")
-              developerConnection.set("scm:git:ssh://github.com/${ext.githubOrg}/${ext.githubRepo}.git")
-              url.set("https://github.com/${ext.githubOrg}/${ext.githubRepo}.git")
+              // todo can this be improved
+              scm {
+                connection.set("scm:git:git://github.com/${ext.githubOrg.get()}/${ext.githubRepo.get()}.git")
+                developerConnection.set("scm:git:ssh://github.com/${ext.githubOrg.get()}/${ext.githubRepo.get()}.git")
+                url.set("https://github.com/${ext.githubOrg.get()}/${ext.githubRepo.get()}.git")
+              }
             }
           }
         }

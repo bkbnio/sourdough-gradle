@@ -11,7 +11,6 @@ import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.plugins.JavaPluginExtension
 import org.gradle.api.tasks.testing.Test
-import org.gradle.jvm.toolchain.JavaLanguageVersion
 import org.gradle.jvm.toolchain.JvmVendorSpec
 import org.gradle.kotlin.dsl.apply
 import org.gradle.kotlin.dsl.buildscript
@@ -57,15 +56,15 @@ class RootPlugin : Plugin<Project> {
           withSourcesJar()
           withJavadocJar()
           toolchain {
-            languageVersion.set(JavaLanguageVersion.of(ext.toolChainJavaVersion.majorVersion))
+            languageVersion.set(ext.toolChainJavaVersion)
             vendor.set(JvmVendorSpec.ADOPTOPENJDK)
           }
         }
         tasks.withType<KotlinCompile> {
-          sourceCompatibility = ext.jvmTarget
+          sourceCompatibility = ext.jvmTarget.get()
           kotlinOptions {
-            jvmTarget = ext.jvmTarget
-            freeCompilerArgs = freeCompilerArgs + ext.compilerArgs
+            jvmTarget = ext.jvmTarget.get()
+            freeCompilerArgs = freeCompilerArgs + ext.compilerArgs.get()
           }
         }
       }
@@ -172,8 +171,8 @@ class RootPlugin : Plugin<Project> {
       configure<NexusPublishExtension> {
         repositories {
           sonatype {
-            nexusUrl.set(uri("https://${ext.sonatypeBaseUrl}/service/local/"))
-            snapshotRepositoryUrl.set(uri("https://${ext.sonatypeBaseUrl}/content/repositories/snapshots/"))
+            nexusUrl.set(ext.sonatypeNexusUrl)
+            snapshotRepositoryUrl.set(ext.sonatypeSnapshotRepositoryUrl)
           }
         }
       }

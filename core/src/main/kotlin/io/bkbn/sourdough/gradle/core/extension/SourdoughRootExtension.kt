@@ -1,10 +1,23 @@
 package io.bkbn.sourdough.gradle.core.extension
 
 import org.gradle.api.JavaVersion
+import org.gradle.api.provider.ListProperty
+import org.gradle.api.provider.Property
+import org.gradle.jvm.toolchain.JavaLanguageVersion
+import java.net.URI
 
-open class SourdoughRootExtension {
-  var toolChainJavaVersion: JavaVersion = JavaVersion.VERSION_11
-  var jvmTarget: String = toolChainJavaVersion.majorVersion
-  var compilerArgs: List<String> = emptyList()
-  var sonatypeBaseUrl: String = "https://s01.oss.sonatype.org"
+abstract class SourdoughRootExtension {
+  abstract val toolChainJavaVersion: Property<JavaLanguageVersion>
+  abstract val jvmTarget: Property<String>
+  abstract val compilerArgs: ListProperty<String>
+  abstract val sonatypeNexusUrl: Property<URI>
+  abstract val sonatypeSnapshotRepositoryUrl: Property<URI>
+
+  init {
+    toolChainJavaVersion.convention(JavaLanguageVersion.of(JavaVersion.VERSION_11.majorVersion))
+    jvmTarget.convention(JavaVersion.VERSION_11.majorVersion)
+    compilerArgs.convention(emptyList())
+    sonatypeNexusUrl.convention(URI("https://s01.oss.sonatype.org/service/local/"))
+    sonatypeSnapshotRepositoryUrl.convention(URI("https://s01.oss.sonatype.org/content/repositories/snapshots/"))
+  }
 }
