@@ -93,13 +93,12 @@ class LibraryPlugin : Plugin<Project> {
 
   private fun Project.configureSigning() {
     apply(plugin = "signing")
-    // todo does this need to be after evaluation?
     if ((project.findProperty("release") as? String)?.toBoolean() == true) {
       configure<SigningExtension> {
         val signingKey: String? by project
         val signingPassword: String? by project
         useInMemoryPgpKeys(signingKey, signingPassword)
-        sign(project.name)
+        sign(extensions.findByType(PublishingExtension::class.java)!!.publications)
       }
     }
   }
