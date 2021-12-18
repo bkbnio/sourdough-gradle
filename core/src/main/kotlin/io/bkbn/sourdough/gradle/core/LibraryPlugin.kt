@@ -23,7 +23,7 @@ class LibraryPlugin : Plugin<Project> {
     val extension = target.extensions.create<SourdoughLibraryExtension>("sourdough")
     target.configureJava()
     target.configurePublishing(extension)
-    target.configureSigning()
+//    target.configureSigning()
     target.configureDokka()
   }
 
@@ -91,6 +91,7 @@ class LibraryPlugin : Plugin<Project> {
     }
   }
 
+  @Suppress("UnusedPrivateMember")
   private fun Project.configureSigning() {
     apply(plugin = "signing")
     afterEvaluate {
