@@ -167,13 +167,11 @@ class RootPlugin : Plugin<Project> {
 
   private fun Project.configureNexus(ext: SourdoughRootExtension) {
     apply(plugin = "io.github.gradle-nexus.publish-plugin")
-    afterEvaluate {
-      configure<NexusPublishExtension> {
-        repositories {
-          sonatype {
-            nexusUrl.set(ext.sonatypeNexusUrl)
-            snapshotRepositoryUrl.set(ext.sonatypeSnapshotRepositoryUrl)
-          }
+    configure<NexusPublishExtension> {
+      repositories {
+        sonatype {
+          nexusUrl.set(ext.sonatypeNexusUrl)
+          snapshotRepositoryUrl.set(ext.sonatypeSnapshotRepositoryUrl)
         }
       }
     }

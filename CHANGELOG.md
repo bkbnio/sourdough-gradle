@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.2.1] - 12/17/2021
+### Changed
+- Sonatype now applied directly, fixes bug where `publishToSonatype` task was not found on root
+
 ## [0.2.0] - 12/17/2021
 ### Changed
 - Back to Properties (aka i'm a lazy boi)
