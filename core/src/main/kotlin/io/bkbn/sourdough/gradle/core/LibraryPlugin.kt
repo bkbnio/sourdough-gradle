@@ -6,6 +6,7 @@ import org.gradle.api.Project
 import org.gradle.api.plugins.JavaPluginExtension
 import org.gradle.api.publish.PublishingExtension
 import org.gradle.api.publish.maven.MavenPublication
+import org.gradle.api.publish.maven.plugins.MavenPublishPlugin
 import org.gradle.kotlin.dsl.apply
 import org.gradle.kotlin.dsl.buildscript
 import org.gradle.kotlin.dsl.configure
@@ -14,6 +15,7 @@ import org.gradle.kotlin.dsl.dependencies
 import org.gradle.kotlin.dsl.get
 import org.gradle.kotlin.dsl.provideDelegate
 import org.gradle.plugins.signing.SigningExtension
+import org.gradle.plugins.signing.SigningPlugin
 import org.jetbrains.dokka.gradle.DokkaTaskPartial
 import org.jetbrains.dokka.versioning.VersioningConfiguration
 import org.jetbrains.dokka.versioning.VersioningPlugin
@@ -38,8 +40,7 @@ class LibraryPlugin : Plugin<Project> {
   }
 
   private fun Project.configurePublishing(ext: SourdoughLibraryExtension) {
-    apply(plugin = "maven-publish")
-    afterEvaluate {
+    plugins.withType(MavenPublishPlugin::class.java).whenPluginAdded {
       configure<PublishingExtension> {
         repositories {
           maven {
@@ -92,12 +93,13 @@ class LibraryPlugin : Plugin<Project> {
   }
 
   private fun Project.configureSigning() {
-    apply(plugin = "signing")
-    configure<SigningExtension> {
-      val signingKey: String? by project
-      val signingPassword: String? by project
-      useInMemoryPgpKeys(signingKey, signingPassword)
-      sign(extensions.findByType(PublishingExtension::class.java)!!.publications)
+    plugins.withType(SigningPlugin::class.java).whenPluginAdded {
+      configure<SigningExtension> {
+        val signingKey: String? by project
+        val signingPassword: String? by project
+        useInMemoryPgpKeys(signingKey, signingPassword)
+        sign(extensions.findByType(PublishingExtension::class.java)!!.publications)
+      }
     }
   }
 
