@@ -12,6 +12,7 @@ abstract class SourdoughRootExtension {
   abstract val compilerArgs: ListProperty<String>
   abstract val sonatypeNexusUrl: Property<URI>
   abstract val sonatypeSnapshotRepositoryUrl: Property<URI>
+  abstract val documentationFolder: Property<String>
 
   init {
     toolChainJavaVersion.convention(JavaLanguageVersion.of(JavaVersion.VERSION_11.majorVersion))
@@ -19,5 +20,6 @@ abstract class SourdoughRootExtension {
     compilerArgs.convention(emptyList())
     sonatypeNexusUrl.convention(URI("https://s01.oss.sonatype.org/service/local/"))
     sonatypeSnapshotRepositoryUrl.convention(URI("https://s01.oss.sonatype.org/content/repositories/snapshots/"))
+    documentationFolder.convention("docs")
   }
 }

@@ -32,7 +32,7 @@ class RootPlugin : Plugin<Project> {
     target.configureDetekt()
     target.configureKotlin(extension)
     target.configureTesting()
-    target.configureDokka()
+    target.configureDokka(extension)
     target.configureKover()
     target.configureNexus(extension)
   }
@@ -112,7 +112,7 @@ class RootPlugin : Plugin<Project> {
     }
   }
 
-  private fun Project.configureDokka() {
+  private fun Project.configureDokka(ext: SourdoughRootExtension) {
     apply(plugin = "org.jetbrains.dokka")
     beforeEvaluate {
       buildscript {
@@ -122,9 +122,10 @@ class RootPlugin : Plugin<Project> {
       }
     }
     afterEvaluate {
+      val rootFolder = ext.documentationFolder.get()
       tasks.withType(DokkaMultiModuleTask::class.java) {
         val version = version.toString()
-        outputDirectory.set(rootDir.resolve("dokka/$version"))
+        outputDirectory.set(rootDir.resolve("$rootFolder/$version"))
         dependencies {
           addProvider("dokkaPlugin", provider { "org.jetbrains.dokka:versioning-plugin:1.6.0" })
         }
@@ -134,18 +135,18 @@ class RootPlugin : Plugin<Project> {
         }
         finalizedBy("generateDokkaHomePage")
       }
-    }
-    tasks.register("generateDokkaHomePage") {
-      val version = version.toString()
-      val dokkaDir = rootDir.resolve("dokka")
-      if (!dokkaDir.exists()) {
-        dokkaDir.mkdir()
+      tasks.register("generateDokkaHomePage") {
+        val version = version.toString()
+        val dokkaDir = rootDir.resolve(rootFolder)
+        if (!dokkaDir.exists()) {
+          dokkaDir.mkdir()
+        }
+        val index = rootDir.resolve("$rootFolder/index.html")
+        if (!index.exists()) {
+          index.createNewFile()
+        }
+        index.writeText("<meta http-equiv=\"refresh\" content=\"0; url=./$version\" />\n")
       }
-      val index = rootDir.resolve("dokka/index.html")
-      if (!index.exists()) {
-        index.createNewFile()
-      }
-      index.writeText("<meta http-equiv=\"refresh\" content=\"0; url=./$version\" />\n")
     }
   }
 
