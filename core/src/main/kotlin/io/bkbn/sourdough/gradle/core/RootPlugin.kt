@@ -131,7 +131,11 @@ class RootPlugin : Plugin<Project> {
         }
         pluginConfiguration<VersioningPlugin, VersioningConfiguration> {
           setVersion(version)
-          olderVersionsDir = rootDir.resolve("dokka")
+          olderVersionsDir = rootDir.resolve(rootFolder)
+        }
+        val projectMd = rootDir.resolve("Project.md")
+        if (projectMd.exists()) {
+          includes.from("Project.md")
         }
         finalizedBy("generateDokkaHomePage")
       }
