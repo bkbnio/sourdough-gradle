@@ -92,5 +92,5 @@ dependencies {
   implementation("ch.qos.logback:logback-core:1.2.3")
 
   // Formatting
-  detektPlugins("io.gitlab.arturbosch.detekt:detekt-formatting:1.19.0-RC2")
+  detektPlugins("io.gitlab.arturbosch.detekt:detekt-formatting:1.19.0")
 }
