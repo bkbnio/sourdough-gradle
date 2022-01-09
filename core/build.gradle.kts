@@ -3,7 +3,7 @@ plugins {
   `kotlin-dsl`
   `java-gradle-plugin`
   `maven-publish`
-  id("com.gradle.plugin-publish") version "0.16.0"
+  id("com.gradle.plugin-publish") version "0.19.0"
 }
 
 dependencies {
