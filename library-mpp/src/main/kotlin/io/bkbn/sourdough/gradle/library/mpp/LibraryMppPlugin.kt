@@ -137,13 +137,14 @@ class LibraryMppPlugin : Plugin<Project> {
   }
 
   private fun Project.configureNodeJS(ext: LibraryMppExtension) {
-    plugins.withType(NodeJsRootPlugin::class.java) {
-      extensions.configure(NodeJsRootExtension::class.java) {
+    rootProject.plugins.withType(NodeJsRootPlugin::class.java) {
+      rootProject.extensions.configure(NodeJsRootExtension::class.java) {
         it.nodeVersion = ext.nodeJsVersion.get()
       }
     }
   }
 
+  // TODO This is borked
   private fun Project.configurePublishing() {
     afterEvaluate {
       extensions.findByType(LibraryMppExtension::class.java)?.let { ext ->
@@ -162,8 +163,8 @@ class LibraryMppPlugin : Plugin<Project> {
             pe.publications { pc ->
               pc.create(project.name, MavenPublication::class.java) { mpub ->
                 mpub.from(components.findByName("kotlin"))
-                mpub.artifact(tasks.findByName("sourcesJar"))
-                mpub.artifact(tasks.findByName("javadocJar"))
+//                mpub.artifact(tasks.findByName("sourcesJar"))
+//                mpub.artifact(tasks.findByName("javadocJar"))
                 mpub.groupId = project.group.toString()
                 mpub.artifactId = project.name.lowercase(Locale.getDefault())
                 mpub.version = project.version.toString()
