@@ -1,9 +1,12 @@
-package io.bkbn.sourdough.gradle.core.extension
+package io.bkbn.sourdough.gradle.library.jvm
 
+import org.gradle.api.provider.ListProperty
 import org.gradle.api.provider.Property
+import java.net.URI
 
-// TODO Move some of these to parent
-abstract class SourdoughLibraryExtension {
+abstract class LibraryJvmExtension {
+  abstract val jvmTarget: Property<String>
+  abstract val compilerArgs: ListProperty<String>
   abstract val githubOrg: Property<String>
   abstract val githubRepo: Property<String>
   abstract val githubActor: Property<String>
@@ -17,6 +20,8 @@ abstract class SourdoughLibraryExtension {
   abstract val developerEmail: Property<String>
 
   init {
+    jvmTarget.convention("11")
+    compilerArgs.convention(emptyList())
     githubActor.convention(System.getenv()["GITHUB_ACTOR"] ?: "Placeholder Github Actor")
     githubToken.convention(System.getenv()["GITHUB_TOKEN"] ?: "Placeholder Github Actor")
   }
