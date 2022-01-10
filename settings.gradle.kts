@@ -1,3 +1,9 @@
 rootProject.name = "sourdough-gradle"
 
-include("core")
+include("root")
+include("library-jvm")
+
+// Set Project Gradle Names
+run {
+  rootProject.children.forEach { it.name = "${rootProject.name}-${it.name}" }
+}
