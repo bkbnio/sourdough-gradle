@@ -141,10 +141,12 @@ class LibraryJvmPlugin : Plugin<Project> {
                   mpom.name.set(ext.libraryName)
                   mpom.description.set(ext.libraryDescription)
                   mpom.url.set("https://github.com/${ext.githubOrg.get()}/${ext.githubRepo.get()}")
-                  mpom.licenses { mpls ->
-                    mpls.license { mpl ->
-                      mpl.name.set(ext.licenseName)
-                      mpl.url.set(ext.licenseUrl)
+                  if (ext.licenseName.isPresent && ext.licenseUrl.isPresent) {
+                    mpom.licenses { mpls ->
+                      mpls.license { mpl ->
+                        mpl.name.set(ext.licenseName)
+                        mpl.url.set(ext.licenseUrl)
+                      }
                     }
                   }
                   mpom.developers { mpds ->
