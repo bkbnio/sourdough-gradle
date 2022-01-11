@@ -110,9 +110,9 @@ class LibraryJvmPlugin : Plugin<Project> {
   }
 
   private fun Project.configurePublishing() {
-    extensions.findByType(LibraryJvmExtension::class.java)?.let { ext ->
-      plugins.withType(MavenPublishPlugin::class.java) {
-        afterEvaluate {
+    afterEvaluate {
+      extensions.findByType(LibraryJvmExtension::class.java)?.let { ext ->
+        plugins.withType(MavenPublishPlugin::class.java) {
           extensions.configure(PublishingExtension::class.java) { pe ->
             pe.repositories { rh ->
               rh.maven { mar ->
