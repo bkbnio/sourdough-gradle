@@ -1,6 +1,7 @@
 rootProject.name = "sourdough-gradle"
 
 include("root")
+include("application-jvm")
 include("library-jvm")
 include("library-mpp")
 
