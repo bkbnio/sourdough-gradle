@@ -33,13 +33,8 @@ class RootPlugin : Plugin<Project> {
   private fun Project.configureDokka(ext: RootExtension) {
     plugins.withType(DokkaPlugin::class.java) {
       beforeEvaluate {
-        it.buildscript.apply {
-          dependencies.apply {
-            this.addProvider("classpath", provider { "org.jetbrains.dokka:versioning-plugin:1.6.0" })
-          }
-        }
+        it.buildscript.dependencies.add("classpath", "org.jetbrains.dokka:versioning-plugin:1.6.0")
       }
-      // TODO This smells... must be a better way to get versions
       afterEvaluate {
         tasks.withType(DokkaMultiModuleTask::class.java) {
           it.outputDirectory.set(rootDir.resolve("${ext.documentationFolder.get()}/${rootProject.version}"))
@@ -47,7 +42,7 @@ class RootPlugin : Plugin<Project> {
             addProvider("dokkaPlugin", provider { "org.jetbrains.dokka:versioning-plugin:1.6.0" })
           }
           it.pluginConfiguration<VersioningPlugin, VersioningConfiguration> {
-            setVersion(project.version)
+            setVersion(project.version.toString())
             olderVersionsDir = rootDir.resolve(ext.documentationFolder.get())
           }
           val projectMd = rootDir.resolve("Project.md")
