@@ -95,7 +95,7 @@ class LibraryJvmPlugin : Plugin<Project> {
           addProvider("dokkaPlugin", provider { "org.jetbrains.dokka:versioning-plugin:1.6.0" })
         }
         it.pluginConfiguration<VersioningPlugin, VersioningConfiguration> {
-          setVersion(version.toString())
+          version = version.toString()
         }
         it.dokkaSourceSets.apply {
           configureEach { gdssb ->
@@ -131,7 +131,7 @@ class LibraryJvmPlugin : Plugin<Project> {
                 mpub.artifact(tasks.findByName("javadocJar"))
                 mpub.groupId = project.group.toString()
                 mpub.artifactId = project.name.lowercase(Locale.getDefault())
-                mpub.version = project.version.toString()
+                mpub.version = version.toString()
 
                 mpub.pom { mpom ->
                   mpom.name.set(ext.libraryName)
