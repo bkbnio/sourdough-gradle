@@ -91,12 +91,11 @@ class LibraryJvmPlugin : Plugin<Project> {
         it.buildscript.dependencies.add("classpath", "org.jetbrains.dokka:versioning-plugin:1.6.0")
       }
       tasks.withType(DokkaTaskPartial::class.java) {
-        val version = version.toString()
         dependencies.apply {
           addProvider("dokkaPlugin", provider { "org.jetbrains.dokka:versioning-plugin:1.6.0" })
         }
         it.pluginConfiguration<VersioningPlugin, VersioningConfiguration> {
-          setVersion(version)
+          setVersion(version.toString())
         }
         it.dokkaSourceSets.apply {
           configureEach { gdssb ->
