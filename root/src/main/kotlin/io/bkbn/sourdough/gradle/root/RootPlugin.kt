@@ -17,6 +17,7 @@ class RootPlugin : Plugin<Project> {
   override fun apply(target: Project) {
     val ext = target.extensions.create("sourdough", RootExtension::class.java)
     target.configureBaseRepositories()
+    target.configureKover()
     target.configureDokka(ext)
     target.configureNexus(ext)
   }
