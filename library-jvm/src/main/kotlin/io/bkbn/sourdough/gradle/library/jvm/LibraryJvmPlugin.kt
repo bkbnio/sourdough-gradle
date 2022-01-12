@@ -53,11 +53,13 @@ class LibraryJvmPlugin : Plugin<Project> {
   }
 
   private fun Project.configureKotlin(ext: LibraryJvmExtension) {
-    tasks.withType(KotlinCompile::class.java) {
-      it.sourceCompatibility = ext.jvmTarget.get()
-      it.kotlinOptions {
-        jvmTarget = ext.jvmTarget.get()
-        freeCompilerArgs = freeCompilerArgs + ext.compilerArgs.get()
+    afterEvaluate {
+      tasks.withType(KotlinCompile::class.java) {
+        it.sourceCompatibility = ext.jvmTarget.get()
+        it.kotlinOptions {
+          jvmTarget = ext.jvmTarget.get()
+          freeCompilerArgs = freeCompilerArgs + ext.compilerArgs.get()
+        }
       }
     }
   }
