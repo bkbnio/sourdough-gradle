@@ -8,7 +8,7 @@ plugins {
 dependencies {
   implementation("org.jetbrains.dokka:dokka-gradle-plugin:1.6.10")
   implementation("org.jetbrains.dokka:versioning-plugin:1.6.10")
-  implementation("org.jetbrains.kotlinx:kover:0.5.0-RC")
+  implementation("org.jetbrains.kotlinx:kover:0.5.0-RC2")
   implementation("io.github.gradle-nexus:publish-plugin:1.1.0")
 }
 
