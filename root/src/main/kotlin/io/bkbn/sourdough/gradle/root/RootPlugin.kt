@@ -5,7 +5,7 @@ import io.github.gradlenexus.publishplugin.NexusPublishPlugin
 import kotlinx.kover.KoverPlugin
 import kotlinx.kover.api.CoverageEngine
 import kotlinx.kover.api.KoverExtension
-import kotlinx.kover.tasks.KoverCollectingProjectsTask
+import kotlinx.kover.tasks.KoverCollectingTask
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.jetbrains.dokka.gradle.DokkaMultiModuleTask
@@ -75,9 +75,9 @@ class RootPlugin : Plugin<Project> {
       extensions.configure(KoverExtension::class.java) {
         it.coverageEngine.set(CoverageEngine.JACOCO)
         it.jacocoEngineVersion.set("0.8.7")
-        it.generateReportOnCheck.set(true)
+        it.generateReportOnCheck = true
       }
-      tasks.withType(KoverCollectingProjectsTask::class.java).configureEach {
+      tasks.withType(KoverCollectingTask::class.java).configureEach {
         it.outputDir.set(layout.buildDirectory.dir("kover-report"))
       }
     }
