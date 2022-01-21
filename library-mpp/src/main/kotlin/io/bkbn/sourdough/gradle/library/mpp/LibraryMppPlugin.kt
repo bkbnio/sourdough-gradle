@@ -109,15 +109,19 @@ class LibraryMppPlugin : Plugin<Project> {
         }
       }
       it.js(KotlinJsCompilerType.IR) {
-        browser {
-          commonWebpackConfig {
-            cssSupport.enabled = true
-          }
-          testTask {
-            useKarma {
-              useChromeCanaryHeadless()
+        when (ext.jsTarget.get()) {
+          JsTarget.BROWSER -> browser {
+            commonWebpackConfig {
+              cssSupport.enabled = true
+            }
+            testTask {
+              useKarma {
+                useChromeCanaryHeadless()
+              }
             }
           }
+          JsTarget.NODE_JS -> nodejs {}
+          else -> error("This shouldn't be possible, just making compiler happy")
         }
       }
       val hostOs = System.getProperty("os.name")

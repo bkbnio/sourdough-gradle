@@ -18,8 +18,10 @@ abstract class LibraryMppExtension {
   abstract val developerId: Property<String>
   abstract val developerName: Property<String>
   abstract val developerEmail: Property<String>
+  abstract val jsTarget: Property<JsTarget>
 
   init {
+    jsTarget.convention(JsTarget.NODE_JS)
     jvmTarget.convention("11")
     nodeJsVersion.convention("16.0.0")
     compilerArgs.convention(emptyList())
