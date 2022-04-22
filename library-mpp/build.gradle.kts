@@ -1,6 +1,6 @@
 plugins {
   kotlin("jvm") version "1.6.21"
-  id("com.gradle.plugin-publish") version "0.19.0"
+  id("com.gradle.plugin-publish") version "0.21.0"
   id("java-gradle-plugin")
   id("maven-publish")
 }
