@@ -22,7 +22,7 @@ abstract class LibraryMppExtension {
 
   init {
     jsTarget.convention(JsTarget.NODE_JS)
-    jvmTarget.convention("11")
+    jvmTarget.convention("17")
     nodeJsVersion.convention("16.0.0")
     compilerArgs.convention(emptyList())
     githubActor.convention(System.getenv()["GITHUB_ACTOR"] ?: "Placeholder Github Actor")

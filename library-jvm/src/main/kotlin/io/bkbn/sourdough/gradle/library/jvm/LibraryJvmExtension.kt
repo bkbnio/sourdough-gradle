@@ -20,7 +20,7 @@ abstract class LibraryJvmExtension {
   abstract val developerEmail: Property<String>
 
   init {
-    jvmTarget.convention("11")
+    jvmTarget.convention("17")
     compilerArgs.convention(emptyList())
     githubActor.convention(System.getenv()["GITHUB_ACTOR"] ?: "Placeholder Github Actor")
     githubToken.convention(System.getenv()["GITHUB_TOKEN"] ?: "Placeholder Github Actor")

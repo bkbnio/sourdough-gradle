@@ -10,6 +10,9 @@ import org.gradle.api.Project
 import org.gradle.api.logging.LogLevel
 import org.gradle.api.plugins.ApplicationPlugin
 import org.gradle.api.plugins.JavaApplication
+import org.gradle.api.plugins.JavaPlugin
+import org.gradle.api.plugins.JavaPluginExtension
+import org.gradle.jvm.toolchain.JavaLanguageVersion
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 class ApplicationJvmPlugin : Plugin<Project> {
@@ -17,6 +20,7 @@ class ApplicationJvmPlugin : Plugin<Project> {
     val ext = target.extensions.create("sourdough", ApplicationJvmExtension::class.java)
     target.configureDetekt()
     target.configureApplication(ext)
+    target.configureJava(ext)
     target.configureKotlin(ext)
     target.configureTesting()
   }
@@ -49,6 +53,19 @@ class ApplicationJvmPlugin : Plugin<Project> {
       }
     }
   }
+
+  private fun Project.configureJava(ext: ApplicationJvmExtension) {
+    afterEvaluate {
+      plugins.withType(JavaPlugin::class.java) {
+        extensions.configure(JavaPluginExtension::class.java) {
+          it.toolchain { jts ->
+            jts.languageVersion.set(JavaLanguageVersion.of(ext.jvmTarget.get()))
+          }
+        }
+      }
+    }
+  }
+
 
   private fun Project.configureTesting() {
     plugins.withType(TestLoggerPlugin::class.java) {

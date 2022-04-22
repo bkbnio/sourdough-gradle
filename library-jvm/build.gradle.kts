@@ -1,16 +1,16 @@
 plugins {
-  kotlin("jvm") version "1.6.10"
+  kotlin("jvm") version "1.6.21"
   id("com.gradle.plugin-publish") version "0.19.0"
   id("java-gradle-plugin")
   id("maven-publish")
 }
 
 dependencies {
-  implementation("org.jetbrains.kotlin:kotlin-gradle-plugin:1.6.10")
+  implementation("org.jetbrains.kotlin:kotlin-gradle-plugin:1.6.21")
   implementation("com.adarshr:gradle-test-logger-plugin:3.1.0")
-  implementation("org.jetbrains.dokka:dokka-gradle-plugin:1.6.10")
-  implementation("org.jetbrains.dokka:versioning-plugin:1.6.10")
-  implementation("io.gitlab.arturbosch.detekt:detekt-gradle-plugin:1.19.0")
+  implementation("org.jetbrains.dokka:dokka-gradle-plugin:1.6.20")
+  implementation("org.jetbrains.dokka:versioning-plugin:1.6.20")
+  implementation("io.gitlab.arturbosch.detekt:detekt-gradle-plugin:1.20.0")
 }
 
 gradlePlugin {

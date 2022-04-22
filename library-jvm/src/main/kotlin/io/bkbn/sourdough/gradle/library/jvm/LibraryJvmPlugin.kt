@@ -13,6 +13,7 @@ import org.gradle.api.plugins.JavaPluginExtension
 import org.gradle.api.publish.PublishingExtension
 import org.gradle.api.publish.maven.MavenPublication
 import org.gradle.api.publish.maven.plugins.MavenPublishPlugin
+import org.gradle.jvm.toolchain.JavaLanguageVersion
 import org.gradle.plugins.signing.SigningExtension
 import org.gradle.plugins.signing.SigningPlugin
 import org.jetbrains.dokka.gradle.DokkaPlugin
@@ -26,7 +27,7 @@ class LibraryJvmPlugin : Plugin<Project> {
   override fun apply(target: Project) {
     val ext = target.extensions.create("sourdough", LibraryJvmExtension::class.java)
     target.configureDetekt()
-    target.configureJava()
+    target.configureJava(ext)
     target.configureKotlin(ext)
     target.configureTesting()
     target.configureDokka()
@@ -43,11 +44,16 @@ class LibraryJvmPlugin : Plugin<Project> {
     }
   }
 
-  private fun Project.configureJava() {
-    plugins.withType(JavaLibraryPlugin::class.java) {
-      extensions.configure(JavaPluginExtension::class.java) {
-        it.withSourcesJar()
-        it.withJavadocJar()
+  private fun Project.configureJava(ext: LibraryJvmExtension) {
+    afterEvaluate {
+      plugins.withType(JavaLibraryPlugin::class.java) {
+        extensions.configure(JavaPluginExtension::class.java) {
+          it.withSourcesJar()
+          it.withJavadocJar()
+          it.toolchain { jts ->
+            jts.languageVersion.set(JavaLanguageVersion.of(ext.jvmTarget.get()))
+          }
+        }
       }
     }
   }
