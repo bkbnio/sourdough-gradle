@@ -15,7 +15,7 @@ import org.jetbrains.dokka.versioning.VersioningPlugin
 
 class RootPlugin : Plugin<Project> {
   override fun apply(target: Project) {
-    val ext = target.extensions.create("sourdough", RootExtension::class.java)
+    val ext = target.extensions.create("sourdoughRoot", RootExtension::class.java)
     target.configureBaseRepositories()
     target.configureKover()
     target.configureDokka(ext)

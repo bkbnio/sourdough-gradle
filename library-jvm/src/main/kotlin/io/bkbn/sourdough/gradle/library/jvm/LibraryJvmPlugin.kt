@@ -25,7 +25,7 @@ import java.util.Locale
 
 class LibraryJvmPlugin : Plugin<Project> {
   override fun apply(target: Project) {
-    val ext = target.extensions.create("sourdough", LibraryJvmExtension::class.java)
+    val ext = target.extensions.create("sourdoughLibrary", LibraryJvmExtension::class.java)
     target.configureDetekt()
     target.configureJava(ext)
     target.configureKotlin(ext)

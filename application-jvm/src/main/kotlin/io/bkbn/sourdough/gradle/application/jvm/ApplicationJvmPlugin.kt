@@ -17,7 +17,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 class ApplicationJvmPlugin : Plugin<Project> {
   override fun apply(target: Project) {
-    val ext = target.extensions.create("sourdough", ApplicationJvmExtension::class.java)
+    val ext = target.extensions.create("sourdoughApp", ApplicationJvmExtension::class.java)
     target.configureDetekt()
     target.configureApplication(ext)
     target.configureJava(ext)
