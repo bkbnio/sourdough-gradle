@@ -95,11 +95,11 @@ class LibraryJvmPlugin : Plugin<Project> {
   private fun Project.configureDokka() {
     plugins.withType(DokkaPlugin::class.java) {
       beforeEvaluate {
-        it.buildscript.dependencies.add("classpath", "org.jetbrains.dokka:versioning-plugin:1.6.0")
+        it.buildscript.dependencies.add("classpath", "org.jetbrains.dokka:versioning-plugin:1.7.10")
       }
       tasks.withType(DokkaTaskPartial::class.java) {
         dependencies.apply {
-          addProvider("dokkaPlugin", provider { "org.jetbrains.dokka:versioning-plugin:1.6.0" })
+          addProvider("dokkaPlugin", provider { "org.jetbrains.dokka:versioning-plugin:1.7.10" })
         }
         it.pluginConfiguration<VersioningPlugin, VersioningConfiguration> {
           version = version.toString()

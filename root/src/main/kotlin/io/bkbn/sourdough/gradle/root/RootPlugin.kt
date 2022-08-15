@@ -34,13 +34,13 @@ class RootPlugin : Plugin<Project> {
   private fun Project.configureDokka(ext: RootExtension) {
     plugins.withType(DokkaPlugin::class.java) {
       beforeEvaluate {
-        it.buildscript.dependencies.add("classpath", "org.jetbrains.dokka:versioning-plugin:1.6.0")
+        it.buildscript.dependencies.add("classpath", "org.jetbrains.dokka:versioning-plugin:1.7.10")
       }
       afterEvaluate {
         tasks.withType(DokkaMultiModuleTask::class.java) {
           it.outputDirectory.set(rootDir.resolve("${ext.documentationFolder.get()}/${rootProject.version}"))
           dependencies.apply {
-            addProvider("dokkaPlugin", provider { "org.jetbrains.dokka:versioning-plugin:1.6.0" })
+            addProvider("dokkaPlugin", provider { "org.jetbrains.dokka:versioning-plugin:1.7.10" })
           }
           it.pluginConfiguration<VersioningPlugin, VersioningConfiguration> {
             setVersion(project.version.toString())
