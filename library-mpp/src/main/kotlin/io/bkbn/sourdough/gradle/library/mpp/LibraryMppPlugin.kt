@@ -73,13 +73,13 @@ class LibraryMppPlugin : Plugin<Project> {
       beforeEvaluate {
         it.buildscript.apply {
           dependencies.apply {
-            this.addProvider("classpath", provider { "org.jetbrains.dokka:versioning-plugin:1.6.0" })
+            this.addProvider("classpath", provider { "org.jetbrains.dokka:versioning-plugin:1.7.10" })
           }
         }
       }
       tasks.withType(DokkaTaskPartial::class.java) {
         dependencies.apply {
-          addProvider("dokkaPlugin", provider { "org.jetbrains.dokka:versioning-plugin:1.6.0" })
+          addProvider("dokkaPlugin", provider { "org.jetbrains.dokka:versioning-plugin:1.7.10" })
         }
         it.pluginConfiguration<VersioningPlugin, VersioningConfiguration> {
           setVersion(rootProject.version)
