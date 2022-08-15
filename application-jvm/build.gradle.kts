@@ -1,12 +1,12 @@
 plugins {
-  kotlin("jvm") version "1.7.0"
+  kotlin("jvm") version "1.7.10"
   id("com.gradle.plugin-publish") version "0.21.0"
   id("java-gradle-plugin")
   id("maven-publish")
 }
 
 dependencies {
-  implementation("org.jetbrains.kotlin:kotlin-gradle-plugin:1.7.0")
+  implementation("org.jetbrains.kotlin:kotlin-gradle-plugin:1.7.10")
   implementation("com.adarshr:gradle-test-logger-plugin:3.2.0")
   implementation("io.gitlab.arturbosch.detekt:detekt-gradle-plugin:1.21.0")
 }
