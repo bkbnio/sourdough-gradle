@@ -5,6 +5,9 @@ import com.adarshr.gradle.testlogger.TestLoggerPlugin
 import com.adarshr.gradle.testlogger.theme.ThemeType
 import io.gitlab.arturbosch.detekt.DetektPlugin
 import io.gitlab.arturbosch.detekt.extensions.DetektExtension
+import kotlinx.kover.KoverPlugin
+import kotlinx.kover.api.DefaultJacocoEngine
+import kotlinx.kover.api.KoverProjectConfig
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.logging.LogLevel
@@ -22,6 +25,7 @@ class ApplicationJvmPlugin : Plugin<Project> {
     target.configureApplication(ext)
     target.configureJava(ext)
     target.configureKotlin(ext)
+    target.configureKover()
     target.configureTesting()
   }
 
@@ -61,6 +65,14 @@ class ApplicationJvmPlugin : Plugin<Project> {
             jts.languageVersion.set(JavaLanguageVersion.of(ext.jvmTarget.get()))
           }
         }
+      }
+    }
+  }
+
+  private fun Project.configureKover() {
+    plugins.withType(KoverPlugin::class.java) {
+      extensions.configure(KoverProjectConfig::class.java) {
+        it.engine.set(DefaultJacocoEngine)
       }
     }
   }
