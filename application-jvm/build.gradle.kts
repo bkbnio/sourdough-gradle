@@ -9,6 +9,7 @@ dependencies {
   implementation("org.jetbrains.kotlin:kotlin-gradle-plugin:1.7.10")
   implementation("com.adarshr:gradle-test-logger-plugin:3.2.0")
   implementation("io.gitlab.arturbosch.detekt:detekt-gradle-plugin:1.21.0")
+  implementation("org.jetbrains.kotlinx:kover:0.6.0")
 }
 
 gradlePlugin {

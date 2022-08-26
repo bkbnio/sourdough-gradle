@@ -3,9 +3,9 @@ package io.bkbn.sourdough.gradle.root
 import io.github.gradlenexus.publishplugin.NexusPublishExtension
 import io.github.gradlenexus.publishplugin.NexusPublishPlugin
 import kotlinx.kover.KoverPlugin
-import kotlinx.kover.api.CoverageEngine
-import kotlinx.kover.api.KoverExtension
-import kotlinx.kover.tasks.KoverCollectingTask
+import kotlinx.kover.api.DefaultJacocoEngine
+import kotlinx.kover.api.KoverMergedConfig
+import kotlinx.kover.api.KoverProjectConfig
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.jetbrains.dokka.gradle.DokkaMultiModuleTask
@@ -72,13 +72,14 @@ class RootPlugin : Plugin<Project> {
 
   private fun Project.configureKover() {
     plugins.withType(KoverPlugin::class.java) {
-      extensions.configure(KoverExtension::class.java) {
-        it.coverageEngine.set(CoverageEngine.JACOCO)
-        it.jacocoEngineVersion.set("0.8.7")
-        it.generateReportOnCheck = true
+      extensions.configure(KoverProjectConfig::class.java) {
+        it.engine.set(DefaultJacocoEngine)
       }
-      tasks.withType(KoverCollectingTask::class.java).configureEach {
-        it.outputDir.set(layout.buildDirectory.dir("kover-report"))
+      extensions.configure(KoverMergedConfig::class.java) { kmc ->
+        kmc.enable()
+        kmc.filters {
+          // TODO Add filters when resolved -> https://github.com/Kotlin/kotlinx-kover/issues/220
+        }
       }
     }
   }
