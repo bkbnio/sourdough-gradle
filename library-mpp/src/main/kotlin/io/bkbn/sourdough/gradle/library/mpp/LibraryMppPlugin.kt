@@ -14,10 +14,6 @@ import org.gradle.api.publish.maven.MavenPublication
 import org.gradle.api.publish.maven.plugins.MavenPublishPlugin
 import org.gradle.plugins.signing.SigningExtension
 import org.gradle.plugins.signing.SigningPlugin
-import org.jetbrains.dokka.gradle.DokkaPlugin
-import org.jetbrains.dokka.gradle.DokkaTaskPartial
-import org.jetbrains.dokka.versioning.VersioningConfiguration
-import org.jetbrains.dokka.versioning.VersioningPlugin
 import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
 import org.jetbrains.kotlin.gradle.plugin.KotlinJsCompilerType
 import org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsRootExtension
@@ -29,7 +25,6 @@ class LibraryMppPlugin : Plugin<Project> {
     val ext = target.extensions.create("sourdough", LibraryMppExtension::class.java)
     target.configureDetekt()
     target.configureTesting()
-    target.configureDokka()
     target.configureMultiplatform(ext)
     target.configureNodeJS(ext)
     target.configurePublishing()
@@ -64,34 +59,6 @@ class LibraryMppPlugin : Plugin<Project> {
         it.showPassedStandardStreams = true
         it.showSkippedStandardStreams = true
         it.showFailedStandardStreams = true
-      }
-    }
-  }
-
-  private fun Project.configureDokka() {
-    plugins.withType(DokkaPlugin::class.java) {
-      beforeEvaluate {
-        it.buildscript.apply {
-          dependencies.apply {
-            this.addProvider("classpath", provider { "org.jetbrains.dokka:versioning-plugin:1.7.10" })
-          }
-        }
-      }
-      tasks.withType(DokkaTaskPartial::class.java) {
-        dependencies.apply {
-          addProvider("dokkaPlugin", provider { "org.jetbrains.dokka:versioning-plugin:1.7.10" })
-        }
-        it.pluginConfiguration<VersioningPlugin, VersioningConfiguration> {
-          setVersion(rootProject.version)
-        }
-        it.dokkaSourceSets.apply {
-          configureEach { gdssb ->
-            val moduleMd = projectDir.resolve("Module.md")
-            if (moduleMd.exists()) {
-              gdssb.includes.from("Module.md")
-            }
-          }
-        }
       }
     }
   }

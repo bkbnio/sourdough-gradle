@@ -34,7 +34,6 @@ number of plugins, namely
 - [Idea](https://docs.gradle.org/current/userguide/idea_plugin.html)
 - [Detekt](https://detekt.github.io/detekt) 1.19.0
 - [Test Logger](https://github.com/radarsh/gradle-test-logger-plugin) 3.1.0
-- [Dokka](https://kotlin.github.io/dokka/1.6.0/) 1.6.0
 - [Kover](https://github.com/Kotlin/kotlinx-kover) 0.4.4
 - [Nexus Publishing](https://github.com/gradle-nexus/publish-plugin) 1.1.0
 
@@ -51,7 +50,6 @@ Out of the box, it installs the following plugins
 - `java` and `java-library`
 - `maven-publish`
 - `signing`
-- [Dokka](https://kotlin.github.io/dokka/1.6.0/) 1.6.0
 
 ### Application Plugin
 
