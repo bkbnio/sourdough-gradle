@@ -19,10 +19,6 @@ import org.gradle.api.publish.maven.plugins.MavenPublishPlugin
 import org.gradle.jvm.toolchain.JavaLanguageVersion
 import org.gradle.plugins.signing.SigningExtension
 import org.gradle.plugins.signing.SigningPlugin
-import org.jetbrains.dokka.gradle.DokkaPlugin
-import org.jetbrains.dokka.gradle.DokkaTaskPartial
-import org.jetbrains.dokka.versioning.VersioningConfiguration
-import org.jetbrains.dokka.versioning.VersioningPlugin
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import java.util.Locale
 
@@ -34,7 +30,6 @@ class LibraryJvmPlugin : Plugin<Project> {
     target.configureKotlin(ext)
     target.configureKover()
     target.configureTesting()
-    target.configureDokka()
     target.configurePublishing()
     target.configureSigning()
   }
@@ -100,30 +95,6 @@ class LibraryJvmPlugin : Plugin<Project> {
         it.showPassedStandardStreams = true
         it.showSkippedStandardStreams = true
         it.showFailedStandardStreams = true
-      }
-    }
-  }
-
-  private fun Project.configureDokka() {
-    plugins.withType(DokkaPlugin::class.java) {
-      beforeEvaluate {
-        it.buildscript.dependencies.add("classpath", "org.jetbrains.dokka:versioning-plugin:1.7.10")
-      }
-      tasks.withType(DokkaTaskPartial::class.java) {
-        dependencies.apply {
-          addProvider("dokkaPlugin", provider { "org.jetbrains.dokka:versioning-plugin:1.7.10" })
-        }
-        it.pluginConfiguration<VersioningPlugin, VersioningConfiguration> {
-          version = version.toString()
-        }
-        it.dokkaSourceSets.apply {
-          configureEach { gdssb ->
-            val moduleMd = projectDir.resolve("Module.md")
-            if (moduleMd.exists()) {
-              gdssb.includes.from("Module.md")
-            }
-          }
-        }
       }
     }
   }
