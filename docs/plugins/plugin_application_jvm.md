@@ -13,8 +13,8 @@ plugins {
 ```
 
 {% hint style="info" %}
-We recommend installing the plugin in the root `build.gradle.kts`, suffixed with`apply false`, and then declaring in your
-application child modules.  This keeps the plugin version consistent across all children
+We recommend installing the plugin in the root `build.gradle.kts`, suffixed with`apply false`, and then declaring in
+your application child modules. This keeps the plugin version consistent across all children
 {% endhint %}
 
 ```kotlin
