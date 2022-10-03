@@ -22,6 +22,9 @@ For more information on installation and configuration, please see the [root plu
 
 ⚠️ The root plugin is a pre-requisite for using any other sourdough-gradle plugins!
 
+> [!COMMENT]
+> An alert of type 'comment' using style 'callout' with default settings.
+
 ## JVM Application
 
 ## JVM Library
