@@ -1,6 +1,1 @@
 root: ./docs/
-plugins:
-  - flexible-alerts
-pluginsConfig:
-  flexible-alerts:
-    style: flat

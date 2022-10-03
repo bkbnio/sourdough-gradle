@@ -3,8 +3,10 @@ started building delicious multi-module Kotlin projects.
 
 At the moment, only JVM targeted plugins are supported. We hope to add multiplatform support in the future.
 
-⚠️ DO NOT use the legacy multiplatform plugins (version `0.10.0` and lower). They will cause you more headache than they
+{% hint style="danger" %}
+DO NOT use the legacy multiplatform plugins (version `0.10.0` and lower). They will cause you more headache than they
 are worth
+{% endhint %}
 
 # Plugins
 
@@ -20,10 +22,9 @@ When installed, it can perform a number of configurations, namely
 
 For more information on installation and configuration, please see the [root plugin docs](plugins/plugin_root.md)
 
-⚠️ The root plugin is a pre-requisite for using any other sourdough-gradle plugins!
-
-> [!COMMENT]
-> An alert of type 'comment' using style 'callout' with default settings.
+{% hint style="warning" %}
+The root plugin is a pre-requisite for using any other sourdough-gradle plugins!
+{% endhint %}
 
 ## JVM Application
 
