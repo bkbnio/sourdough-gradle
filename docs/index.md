@@ -1,8 +1,6 @@
 The Sourdough Gradle Plugins are a collection of highly-opinionated, batteries-included gradle plugins to get you
 started building delicious multi-module Kotlin projects.
 
-At the moment, only JVM targeted plugins are supported. We hope to add multiplatform support in the future.
-
 {% hint style="danger" %}
 DO NOT use the legacy multiplatform plugins (version `0.10.0` and lower). They will cause you more headache than they
 are worth
@@ -57,3 +55,14 @@ When installed to a child module, this plugin can perform a number of configurat
 
 For more information on installing and configuring, please see
 the [library jvm plugin docs](plugins/plugin_library_jvm.md)
+
+## Multiplatform Library
+
+The Multiplatform Library plugin is intended for bootstrapping modules where the intended purpose is publishing
+multiplatform artifacts to a maven repository. It is focused on publishing to [Maven Central](https://search.maven.org/)
+but all repositories are supported.
+
+When installed to a child module, this plugin can perform a number of configurations
+
+1. Configure Maven publishing
+2. Configure Sonatype Signing
