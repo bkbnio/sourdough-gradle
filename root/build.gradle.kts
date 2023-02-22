@@ -7,7 +7,7 @@ plugins {
 
 dependencies {
   implementation("org.jetbrains.kotlinx:kover:0.6.1")
-  implementation("io.github.gradle-nexus:publish-plugin:1.1.0")
+  implementation("io.github.gradle-nexus:publish-plugin:1.2.0")
 }
 
 gradlePlugin {
