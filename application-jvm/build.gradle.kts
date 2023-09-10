@@ -23,15 +23,14 @@ gradlePlugin {
   }
 }
 
-pluginBundle {
+gradlePlugin {
   website = "https://github.com/bkbnio"
   vcsUrl = "https://github.com/bkbnio/sourdough-gradle"
-  tags = listOf("configuration", "kotlin")
 }
 
 java {
-  sourceCompatibility = JavaVersion.VERSION_11
-  targetCompatibility = JavaVersion.VERSION_11
+  sourceCompatibility = JavaVersion.VERSION_17
+  targetCompatibility = JavaVersion.VERSION_17
 }
 
 publishing {
