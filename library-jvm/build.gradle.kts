@@ -1,5 +1,5 @@
 plugins {
-  kotlin("jvm") version "1.9.0"
+  kotlin("jvm") version "1.9.10"
   id("com.gradle.plugin-publish") version "1.2.1"
   id("java-gradle-plugin")
   id("maven-publish")
@@ -8,8 +8,8 @@ plugins {
 dependencies {
   implementation("org.jetbrains.kotlin:kotlin-gradle-plugin:1.9.10")
   implementation("com.adarshr:gradle-test-logger-plugin:3.2.0")
-  implementation("io.gitlab.arturbosch.detekt:detekt-gradle-plugin:1.23.0")
-  implementation("org.jetbrains.kotlinx:kover:0.6.1")
+  implementation("io.gitlab.arturbosch.detekt:detekt-gradle-plugin:1.23.1")
+  implementation("org.jetbrains.kotlinx.kover:org.jetbrains.kotlinx.kover.gradle.plugin:0.7.3")
 }
 
 gradlePlugin {
@@ -23,15 +23,14 @@ gradlePlugin {
   }
 }
 
-pluginBundle {
+gradlePlugin {
   website = "https://github.com/bkbnio"
   vcsUrl = "https://github.com/bkbnio/sourdough-gradle"
-  tags = listOf("configuration", "kotlin")
 }
 
 java {
-  sourceCompatibility = JavaVersion.VERSION_11
-  targetCompatibility = JavaVersion.VERSION_11
+  sourceCompatibility = JavaVersion.VERSION_17
+  targetCompatibility = JavaVersion.VERSION_17
 }
 
 publishing {
