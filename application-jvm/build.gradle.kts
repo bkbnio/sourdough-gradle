@@ -13,12 +13,15 @@ dependencies {
 }
 
 gradlePlugin {
+  website = "https://github.com/bkbnio"
+  vcsUrl = "https://github.com/bkbnio/sourdough-gradle"
   plugins {
     create("Sourdough Application JVM") {
       id = "io.bkbn.sourdough.application.jvm"
       displayName = "JVM Application Configuration Plugin for Sourdough Projects"
       description = "Highly-opinionated, batteries-included JVM application gradle configuration plugin for multi-module projects"
       implementationClass = "io.bkbn.sourdough.gradle.application.jvm.ApplicationJvmPlugin"
+      tags = listOf("configuration", "kotlin")
     }
   }
 }

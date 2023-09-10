@@ -13,19 +13,17 @@ dependencies {
 }
 
 gradlePlugin {
+  website = "https://github.com/bkbnio"
+  vcsUrl = "https://github.com/bkbnio/sourdough-gradle"
   plugins {
     create("Sourdough Library JVM") {
       id = "io.bkbn.sourdough.library.jvm"
       displayName = "JVM Library Configuration Plugin for Sourdough Projects"
       description = "Highly-opinionated, batteries-included jvm library gradle configuration plugin for multi-module projects"
       implementationClass = "io.bkbn.sourdough.gradle.library.jvm.LibraryJvmPlugin"
+      tags = listOf("configuration", "kotlin")
     }
   }
-}
-
-gradlePlugin {
-  website = "https://github.com/bkbnio"
-  vcsUrl = "https://github.com/bkbnio/sourdough-gradle"
 }
 
 java {

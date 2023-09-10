@@ -11,19 +11,17 @@ dependencies {
 }
 
 gradlePlugin {
+  website = "https://github.com/bkbnio"
+  vcsUrl = "https://github.com/bkbnio/sourdough-gradle"
   plugins {
     create("Sourdough Root") {
       id = "io.bkbn.sourdough.root"
       displayName = "Root Plugin for Sourdough Projects"
       description = "Highly-opinionated, batteries-included root gradle configuration plugin for multi-module projects"
       implementationClass = "io.bkbn.sourdough.gradle.root.RootPlugin"
+      tags = listOf("configuration", "kotlin")
     }
   }
-}
-
-gradlePlugin {
-  website = "https://github.com/bkbnio"
-  vcsUrl = "https://github.com/bkbnio/sourdough-gradle"
 }
 
 java {
