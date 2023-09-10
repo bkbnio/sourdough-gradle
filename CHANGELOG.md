@@ -8,7 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
-- Bumped versions for kover and detekt
+- Bumped versions 
 
 ## [0.12.0] - October 3rd, 2022
 
