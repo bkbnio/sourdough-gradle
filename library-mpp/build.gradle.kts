@@ -1,14 +1,14 @@
 plugins {
-  kotlin("jvm") version "1.8.20"
+  kotlin("jvm") version "1.9.10"
   id("com.gradle.plugin-publish") version "1.2.0"
   id("java-gradle-plugin")
   id("maven-publish")
 }
 
 dependencies {
-  implementation("org.jetbrains.kotlin:kotlin-gradle-plugin:1.8.20")
+  implementation("org.jetbrains.kotlin:kotlin-gradle-plugin:1.9.10")
   implementation("com.adarshr:gradle-test-logger-plugin:3.2.0")
-  implementation("io.gitlab.arturbosch.detekt:detekt-gradle-plugin:1.22.0")
+  implementation("io.gitlab.arturbosch.detekt:detekt-gradle-plugin:1.23.1")
 }
 
 java {

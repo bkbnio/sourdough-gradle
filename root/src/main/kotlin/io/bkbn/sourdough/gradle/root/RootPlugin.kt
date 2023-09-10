@@ -2,10 +2,7 @@ package io.bkbn.sourdough.gradle.root
 
 import io.github.gradlenexus.publishplugin.NexusPublishExtension
 import io.github.gradlenexus.publishplugin.NexusPublishPlugin
-import kotlinx.kover.KoverPlugin
-import kotlinx.kover.api.DefaultJacocoEngine
-import kotlinx.kover.api.KoverMergedConfig
-import kotlinx.kover.api.KoverProjectConfig
+import kotlinx.kover.gradle.plugin.KoverGradlePlugin
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 
@@ -27,15 +24,10 @@ class RootPlugin : Plugin<Project> {
   }
 
   private fun Project.configureKover() {
-    plugins.withType(KoverPlugin::class.java) {
-      extensions.configure(KoverProjectConfig::class.java) {
-        it.engine.set(DefaultJacocoEngine)
-      }
-      extensions.configure(KoverMergedConfig::class.java) { kmc ->
-        kmc.enable()
-        kmc.filters {
-          // TODO Add filters when resolved -> https://github.com/Kotlin/kotlinx-kover/issues/220
-        }
+    plugins.withType(KoverGradlePlugin::class.java) {
+      dependencies.apply {
+        // TODO Doesn't work
+        // subprojects.forEach { kover(it) }
       }
     }
   }

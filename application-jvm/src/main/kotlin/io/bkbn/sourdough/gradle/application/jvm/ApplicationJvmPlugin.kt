@@ -5,9 +5,8 @@ import com.adarshr.gradle.testlogger.TestLoggerPlugin
 import com.adarshr.gradle.testlogger.theme.ThemeType
 import io.gitlab.arturbosch.detekt.DetektPlugin
 import io.gitlab.arturbosch.detekt.extensions.DetektExtension
-import kotlinx.kover.KoverPlugin
-import kotlinx.kover.api.DefaultJacocoEngine
-import kotlinx.kover.api.KoverProjectConfig
+import kotlinx.kover.gradle.plugin.KoverGradlePlugin
+import kotlinx.kover.gradle.plugin.dsl.KoverProjectExtension
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.logging.LogLevel
@@ -32,7 +31,7 @@ class ApplicationJvmPlugin : Plugin<Project> {
   private fun Project.configureDetekt() {
     plugins.withType(DetektPlugin::class.java) {
       extensions.configure(DetektExtension::class.java) {
-        it.config = files("${rootProject.projectDir}/detekt.yml")
+        it.config.setFrom(files("${rootProject.projectDir}/detekt.yml"))
         it.buildUponDefaultConfig = true
       }
     }
@@ -70,9 +69,9 @@ class ApplicationJvmPlugin : Plugin<Project> {
   }
 
   private fun Project.configureKover() {
-    plugins.withType(KoverPlugin::class.java) {
-      extensions.configure(KoverProjectConfig::class.java) {
-        it.engine.set(DefaultJacocoEngine)
+    plugins.withType(KoverGradlePlugin::class.java) {
+      extensions.configure(KoverProjectExtension::class.java) {
+        it.useJacoco()
       }
     }
   }

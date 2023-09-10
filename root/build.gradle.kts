@@ -1,12 +1,12 @@
 plugins {
-  kotlin("jvm") version "1.8.20"
+  kotlin("jvm") version "1.9.10"
   id("com.gradle.plugin-publish") version "1.2.0"
   id("java-gradle-plugin")
   id("maven-publish")
 }
 
 dependencies {
-  implementation("org.jetbrains.kotlinx:kover:0.6.1")
+  implementation("org.jetbrains.kotlinx.kover:org.jetbrains.kotlinx.kover.gradle.plugin:0.7.3")
   implementation("io.github.gradle-nexus:publish-plugin:1.3.0")
 }
 
