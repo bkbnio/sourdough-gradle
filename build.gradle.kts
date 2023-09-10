@@ -21,7 +21,7 @@ allprojects {
 }
 
 detekt {
-  config = files("${rootProject.projectDir}/detekt.yml")
+  config.setFrom(files("${rootProject.projectDir}/detekt.yml"))
   buildUponDefaultConfig = true
 }
 

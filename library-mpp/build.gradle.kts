@@ -17,19 +17,17 @@ java {
 }
 
 gradlePlugin {
+  website = "https://github.com/bkbnio"
+  vcsUrl = "https://github.com/bkbnio/sourdough-gradle"
   plugins {
     create("Multiplatform Sourdough Library") {
       id = "io.bkbn.sourdough.library.mpp"
       displayName = "Kotlin Multiplatform Library Configuration Plugin for Sourdough Projects"
       description = "Highly-opinionated, batteries-included multiplatform library gradle configuration plugin for multi-module projects"
       implementationClass = "io.bkbn.sourdough.gradle.library.mpp.LibraryMppPlugin"
+      tags = listOf("configuration", "kotlin")
     }
   }
-}
-
-gradlePlugin {
-  website = "https://github.com/bkbnio"
-  vcsUrl = "https://github.com/bkbnio/sourdough-gradle"
 }
 
 publishing {
