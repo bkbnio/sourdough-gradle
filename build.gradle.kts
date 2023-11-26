@@ -1,6 +1,6 @@
 plugins {
   id("com.github.jakemarsden.git-hooks") version "0.0.2"
-  id("io.gitlab.arturbosch.detekt") version "1.23.3"
+  id("io.gitlab.arturbosch.detekt") version "1.23.4"
 }
 
 allprojects {
