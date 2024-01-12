@@ -9,7 +9,7 @@ abstract class ApplicationJvmExtension {
   abstract val mainClassName: Property<String>
 
   init {
-    jvmTarget.convention("17")
+    jvmTarget.convention("21")
     compilerArgs.convention(emptyList())
   }
 }

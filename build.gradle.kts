@@ -1,5 +1,4 @@
 plugins {
-  id("com.github.jakemarsden.git-hooks") version "0.0.2"
   id("io.gitlab.arturbosch.detekt") version "1.23.4"
 }
 
@@ -25,11 +24,3 @@ detekt {
   buildUponDefaultConfig = true
 }
 
-gitHooks {
-  setHooks(
-    mapOf(
-      "pre-commit" to "detekt",
-      "pre-push" to "test"
-    )
-  )
-}
