@@ -20,7 +20,7 @@ abstract class LibraryMppExtension {
   abstract val developerEmail: Property<String>
 
   init {
-    jvmTarget.convention("17")
+    jvmTarget.convention("21")
     nodeJsVersion.convention("16.0.0")
     compilerArgs.convention(emptyList())
     githubActor.convention(System.getenv()["GITHUB_ACTOR"] ?: "Placeholder Github Actor")
