@@ -1,5 +1,5 @@
 plugins {
-  id("io.gitlab.arturbosch.detekt") version "1.23.4"
+  id("io.gitlab.arturbosch.detekt") version "1.23.5"
 }
 
 allprojects {
