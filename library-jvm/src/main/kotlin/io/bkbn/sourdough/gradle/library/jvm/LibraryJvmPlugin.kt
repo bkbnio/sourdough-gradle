@@ -3,6 +3,8 @@ package io.bkbn.sourdough.gradle.library.jvm
 import com.adarshr.gradle.testlogger.TestLoggerExtension
 import com.adarshr.gradle.testlogger.TestLoggerPlugin
 import com.adarshr.gradle.testlogger.theme.ThemeType
+import com.vanniktech.maven.publish.MavenPublishBaseExtension
+import com.vanniktech.maven.publish.MavenPublishBasePlugin
 import io.gitlab.arturbosch.detekt.DetektPlugin
 import io.gitlab.arturbosch.detekt.extensions.DetektExtension
 import kotlinx.kover.gradle.plugin.KoverGradlePlugin
@@ -13,13 +15,11 @@ import org.gradle.api.logging.LogLevel
 import org.gradle.api.plugins.JavaLibraryPlugin
 import org.gradle.api.plugins.JavaPluginExtension
 import org.gradle.api.publish.PublishingExtension
-import org.gradle.api.publish.maven.MavenPublication
-import org.gradle.api.publish.maven.plugins.MavenPublishPlugin
 import org.gradle.jvm.toolchain.JavaLanguageVersion
 import org.gradle.plugins.signing.SigningExtension
 import org.gradle.plugins.signing.SigningPlugin
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
-import java.util.Locale
+import java.util.*
 
 class LibraryJvmPlugin : Plugin<Project> {
   override fun apply(target: Project) {
@@ -46,8 +46,6 @@ class LibraryJvmPlugin : Plugin<Project> {
     afterEvaluate {
       plugins.withType(JavaLibraryPlugin::class.java) {
         extensions.configure(JavaPluginExtension::class.java) {
-          it.withSourcesJar()
-          it.withJavadocJar()
           it.toolchain { jts ->
             jts.languageVersion.set(JavaLanguageVersion.of(ext.jvmTarget.get()))
           }
@@ -101,52 +99,40 @@ class LibraryJvmPlugin : Plugin<Project> {
   private fun Project.configurePublishing() {
     afterEvaluate {
       extensions.findByType(LibraryJvmExtension::class.java)?.let { ext ->
-        plugins.withType(MavenPublishPlugin::class.java) {
-          extensions.configure(PublishingExtension::class.java) { pe ->
-            pe.repositories { rh ->
-              rh.maven { mar ->
-                mar.name = "GithubPackages"
-                mar.url = uri("https://maven.pkg.github.com/${ext.githubOrg.get()}/${ext.githubRepo.get()}")
-                mar.credentials { pc ->
-                  pc.username = ext.githubActor.get()
-                  pc.password = ext.githubToken.get()
+        plugins.withType(MavenPublishBasePlugin::class.java) {
+          extensions.configure(MavenPublishBaseExtension::class.java) { mpbe ->
+            mpbe.publishToMavenCentral(ext.sonatypeHost.get())
+            mpbe.signAllPublications()
+            mpbe.coordinates(
+              groupId = project.group.toString(),
+              artifactId = project.name.lowercase(Locale.getDefault()),
+              version = version.toString()
+            )
+
+            mpbe.pom { mpom ->
+              mpom.name.set(ext.libraryName)
+              mpom.description.set(ext.libraryDescription)
+              mpom.url.set("https://github.com/${ext.githubOrg.get()}/${ext.githubRepo.get()}")
+              if (ext.licenseName.isPresent && ext.licenseUrl.isPresent) {
+                mpom.licenses { mpls ->
+                  mpls.license { mpl ->
+                    mpl.name.set(ext.licenseName)
+                    mpl.url.set(ext.licenseUrl)
+                  }
                 }
               }
-            }
-            pe.publications { pc ->
-              pc.create(project.name, MavenPublication::class.java) { mpub ->
-                mpub.from(components.findByName("kotlin"))
-                mpub.artifact(tasks.findByName("sourcesJar"))
-                mpub.artifact(tasks.findByName("javadocJar"))
-                mpub.groupId = project.group.toString()
-                mpub.artifactId = project.name.lowercase(Locale.getDefault())
-                mpub.version = version.toString()
-
-                mpub.pom { mpom ->
-                  mpom.name.set(ext.libraryName)
-                  mpom.description.set(ext.libraryDescription)
-                  mpom.url.set("https://github.com/${ext.githubOrg.get()}/${ext.githubRepo.get()}")
-                  if (ext.licenseName.isPresent && ext.licenseUrl.isPresent) {
-                    mpom.licenses { mpls ->
-                      mpls.license { mpl ->
-                        mpl.name.set(ext.licenseName)
-                        mpl.url.set(ext.licenseUrl)
-                      }
-                    }
-                  }
-                  mpom.developers { mpds ->
-                    mpds.developer { mpd ->
-                      mpd.id.set(ext.developerId)
-                      mpd.name.set(ext.developerName)
-                      mpd.email.set(ext.developerEmail)
-                    }
-                  }
-                  mpom.scm { mps ->
-                    mps.connection.set("scm:git:git://github.com/${ext.githubOrg.get()}/${ext.githubRepo.get()}.git")
-                    mps.developerConnection.set("scm:git:ssh://github.com/${ext.githubOrg.get()}/${ext.githubRepo.get()}.git")
-                    mps.url.set("https://github.com/${ext.githubOrg.get()}/${ext.githubRepo.get()}.git")
-                  }
+              mpom.developers { mpds ->
+                mpds.developer { mpd ->
+                  mpd.id.set(ext.developerId)
+                  mpd.name.set(ext.developerName)
+                  mpd.email.set(ext.developerEmail)
                 }
+              }
+
+              mpom.scm { mps ->
+                mps.connection.set("scm:git:git://github.com/${ext.githubOrg.get()}/${ext.githubRepo.get()}.git")
+                mps.developerConnection.set("scm:git:ssh://github.com/${ext.githubOrg.get()}/${ext.githubRepo.get()}.git")
+                mps.url.set("https://github.com/${ext.githubOrg.get()}/${ext.githubRepo.get()}.git")
               }
             }
           }

@@ -1,5 +1,6 @@
 package io.bkbn.sourdough.gradle.library.jvm
 
+import com.vanniktech.maven.publish.SonatypeHost
 import org.gradle.api.provider.ListProperty
 import org.gradle.api.provider.Property
 import java.net.URI
@@ -7,6 +8,7 @@ import java.net.URI
 abstract class LibraryJvmExtension {
   abstract val jvmTarget: Property<String>
   abstract val compilerArgs: ListProperty<String>
+  abstract val sonatypeHost: Property<SonatypeHost>
   abstract val githubOrg: Property<String>
   abstract val githubRepo: Property<String>
   abstract val githubActor: Property<String>

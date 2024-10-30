@@ -16,7 +16,7 @@ When installed, it can perform a number of configurations
 
 1. Bootstrapping your base maven repositories
 2. Configure [Kover](https://github.com/Kotlin/kotlinx-kover) for integrated code coverage
-3. Configure [Nexus](https://www.sonatype.com/products/nexus-repository) for library publishing
+3. Configure [Publishing](https://vanniktech.github.io/gradle-maven-publish-plugin) for library publishing
 
 For more information on installation and configuration, please see the [root plugin docs](plugins/plugin_root.md)
 
