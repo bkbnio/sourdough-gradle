@@ -14,10 +14,7 @@ import org.gradle.api.Project
 import org.gradle.api.logging.LogLevel
 import org.gradle.api.plugins.JavaLibraryPlugin
 import org.gradle.api.plugins.JavaPluginExtension
-import org.gradle.api.publish.PublishingExtension
 import org.gradle.jvm.toolchain.JavaLanguageVersion
-import org.gradle.plugins.signing.SigningExtension
-import org.gradle.plugins.signing.SigningPlugin
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import java.util.*
 
@@ -30,7 +27,6 @@ class LibraryJvmPlugin : Plugin<Project> {
     target.configureKover()
     target.configureTesting()
     target.configurePublishing()
-    target.configureSigning()
   }
 
   private fun Project.configureDetekt() {
@@ -101,8 +97,8 @@ class LibraryJvmPlugin : Plugin<Project> {
       extensions.findByType(LibraryJvmExtension::class.java)?.let { ext ->
         plugins.withType(MavenPublishBasePlugin::class.java) {
           extensions.configure(MavenPublishBaseExtension::class.java) { mpbe ->
-            mpbe.publishToMavenCentral(ext.sonatypeHost.get())
             mpbe.signAllPublications()
+            mpbe.publishToMavenCentral(ext.sonatypeHost.get())
             mpbe.coordinates(
               groupId = project.group.toString(),
               artifactId = project.name.lowercase(Locale.getDefault()),
@@ -135,23 +131,6 @@ class LibraryJvmPlugin : Plugin<Project> {
                 mps.url.set("https://github.com/${ext.githubOrg.get()}/${ext.githubRepo.get()}.git")
               }
             }
-          }
-        }
-      }
-    }
-  }
-
-  private fun Project.configureSigning() {
-    afterEvaluate {
-      plugins.withType(SigningPlugin::class.java) {
-        if (((project.findProperty("release") as? String)?.toBoolean() == true)) {
-          extensions.configure(SigningExtension::class.java) {
-            val signingKey = project.findProperty("signingKey")?.toString()
-              ?: error("Signing Key is not set, but release is turned on")
-            val signingPassword = project.findProperty("signingPassword")?.toString()
-              ?: error("Signing Password is not set, but release is turned on")
-            it.useInMemoryPgpKeys(signingKey, signingPassword)
-            it.sign(extensions.findByType(PublishingExtension::class.java)!!.publications)
           }
         }
       }
