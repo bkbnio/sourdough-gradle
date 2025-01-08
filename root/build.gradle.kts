@@ -6,7 +6,7 @@ plugins {
 }
 
 dependencies {
-  implementation("org.jetbrains.kotlinx.kover:org.jetbrains.kotlinx.kover.gradle.plugin:0.9.0")
+  implementation("org.jetbrains.kotlinx.kover:org.jetbrains.kotlinx.kover.gradle.plugin:0.9.1")
 }
 
 gradlePlugin {
