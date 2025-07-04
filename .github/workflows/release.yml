@@ -15,7 +15,7 @@ jobs:
           distribution: 'adopt'
           java-version: '21'
       - name: Publish Plugins to Gradle
-        uses: burrunan/gradle-cache-action@v1
+        uses: burrunan/gradle-cache-action@v3
         with:
           gradle-version: wrapper
           arguments: publishPlugins
